@@ -53,17 +53,17 @@
 <!---------body------------------------------->
     
     <div class="modal-body">
-        <form action="">
+        <form action="" method="POST" id="frmArchSem">
             <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="nuemro_semana" placeholder="Ingresa el número de semana" required>
+                <input required type="number" class="form-control" id="nuemro_semana" name="num_sem" placeholder="Ingresa el número de semana" >
                 <label for="nuemro_semana">Ingresa el número de semana</label>
             </div>
             <br>
         <!---------footer-------------------------------> 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
+                <button id="btnformArchSem"type="button" class="btn btn-primary">Guardar</button>              
+            </div>
         <!---------footer------------------------------->
         </form>
     </div>
@@ -91,7 +91,6 @@
                         <tr onclick = "seleccionar_sem(<?php echo $ID_semana?>)" >
                             <td>semana</td>
                             <td><?php echo $row['numero_semana'] ?></td>
-                            <td><?php print_r($ID_semana) ?></td>
                         </tr>
                     <?php endforeach; ?>
 

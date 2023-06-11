@@ -9,8 +9,8 @@
     $res = $statement->fetchAll();
 
     // imprime los datos del Array en el navegador 
-    foreach ($res as $fila) {
-        // print_r($fila);
-    }
+    // foreach ($res as $fila) {
+    //     // print_r($fila);
+    // }
 
 ?>
