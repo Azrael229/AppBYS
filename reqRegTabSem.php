@@ -10,7 +10,10 @@
 
     // imprime los datos del Array en el navegador 
     // foreach ($res as $fila) {
-    //     // print_r($fila);
+    //     print_r($fila);
     // }
+
+    rsort($res);
+    // print_r ($res) ;
 
 ?>

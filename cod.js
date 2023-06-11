@@ -14,6 +14,8 @@ function seleccionar_sem(ID){
 
 }
 
+
+// funcion click en boton formulario que agrega semana a base de datos 
 btnformArchSem.addEventListener("click", ()=>{
     fetch("insertSemana.php", {
         method: "POST",
