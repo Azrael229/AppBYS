@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
-</head>
-<body>
+<?php require("header.php"); ?>
+
 
 <!------- titulo gastos 2023 -------------->
     <div class="container text-center" >
@@ -36,9 +27,6 @@
     </div>
 <!--------------------------------------------------->
 
-
-
-    
   
 <!---------------- Modal ------------------------------->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,27 +70,35 @@
     <div class="container">
         <div class="row">
             
-            <table class="table table-hover">
+            <div class="list-group">
+
+                <?php foreach($res as $row): ?>
+                    <a href="semana.php?id=<?php echo $row['numero_semana'] ?>" name="<?php echo $row['numero_semana'] ?>"class="list-group-item list-group-item-action list-group-item-light">Semana <?php echo $row['numero_semana'] ?></a>
+                <?php endforeach; ?>
+
+            </div>
+        </div>
+    </div>   
+<!------- ------------------------------------------>
+
+
+<!-- <table class="table table-hover">
                 
                 <tbody>
                     <?php foreach($res as $row): ?>
                         <?php $ID_semana = $row['numero_semana']; ?>
-                        <tr onclick = "seleccionar_sem(<?php echo $ID_semana?>)" >
-                            <td>semana</td>
-                            <td><?php echo $row['numero_semana'] ?></td>
+                        
+                        <tr onclick = "seleccionar_sem(<?php echo $ID_semana?>)">
+                            <td>semana <?php echo $row['numero_semana'] ?></td>
+                            
                         </tr>
+                        
                     <?php endforeach; ?>
 
                 </tbody>
-            </table>
+            </table> -->
 
 
-        </div>
+<?php require("footer.php"); ?>
 
-    </div>
-<!------- ------------------------------------------>
-    <script src="cod.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
-</body>
-</html>
+
