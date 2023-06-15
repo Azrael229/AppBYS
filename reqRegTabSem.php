@@ -2,7 +2,7 @@
     require ("conexion.php");
 
     // Seleccionando datos de BD con prepared statements
-    $statement = $conexion->prepare('SELECT * FROM semana');
+    $statement = $conexion->prepare('SELECT numero_semana FROM semana');
     $statement->execute();
 
     // guarda en la variable $res todos los resultados de la solicitud 
