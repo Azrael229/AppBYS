@@ -63,12 +63,12 @@ btn_frm_add_actividad.addEventListener("click", ()=>{
         console.log(response);
         
         if (response == "ok") {
-            alert ("Actividad Agregada");   
+            // alert ("Actividad Agregada");   
             location.reload();        
         }
         else{
-            // location.reload();  
             alert ("error");        
+            location.reload();  
         };       
     })
 
