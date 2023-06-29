@@ -1,6 +1,6 @@
 <?php
 
-    // esta solicutud pide a la base de datos que guarde en la vaiable $reslutado todos los dias de la semana X que le pasamos por GET id en la url del navegador
+    // esta solicutud pide a la base de datos que guarde en la variable $reslutado todos los dias de la semana X que le pasamos por GET id en la url del navegador
 
 
      $id_num_sem = ($_GET['id']);
@@ -24,4 +24,6 @@
 
     // $resultado2 = $statement->fetchAll();
     // print_r($resultado2);
+
+    
 ?>
