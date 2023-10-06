@@ -11,6 +11,17 @@
     </div>
 <!------- ----------------------------------->
 
+<!------- boton Generar PDF -------------->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col">
+                <!-- <button type="button" style="width: 150px;" class="btn btn-primary">Generar PDF</button> -->
+                <a href="fpdf/tutorial/tuto5.php" target="_blank" style="width: 150px; height: 42px" class="btn btn-primary">Generar PDF</a>
+            </div>
+        </div>
+    </div>
+<!------- ----------------------------------->
+
 <!------- boton añadir + Nuevo dia abre Modal -------------->
 <div class="container">
     <div class="row justify-content-center" >
@@ -299,16 +310,7 @@
 
 
 
-<!------- boton Generar PDF -------------->
-<div class="container">
-    <div class="row justify-content-end">
-        <div class="col-4">
-            <!-- <button type="button" style="width: 150px;" class="btn btn-primary">Generar PDF</button> -->
-            <a href="fpdf/tutorial/tuto5.php" target="_blank" style="width: 150px; height: 42px" class="btn btn-primary">Generar PDF</a>
-        </div>
-    </div>
-</div>
-<!------- ----------------------------------->
+
 
 <script src="semana.js"></script>
 
