@@ -1,4 +1,6 @@
-
+*{
+    box-sizing: border-box;
+}
 .row{
     padding: 10px;
     
@@ -6,4 +8,7 @@
 .col{
     display: flex;
     justify-content: space-around;
+}
+#dayCard{
+    overflow: auto;
 }

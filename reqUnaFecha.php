@@ -12,4 +12,5 @@
     $respuesta = $statement->fetch(PDO::FETCH_ASSOC);
 
     echo json_encode($respuesta);
+    // print_r($respuesta);
 ?>

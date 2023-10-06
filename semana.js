@@ -32,14 +32,14 @@ function escribir_fecha_modal(ID){
     // el ID del dia, se lo pasa al input id_fecha, para despues enviarlo a la base de datos, con el registro de la nueva actividad
     input_id_fecha.value = ID;
 
-    // console.log(ID);
+    //console.log(ID);
 
     fetch("reqUnaFecha.php",{
         method: "POST",
         body: ID
 
-    }).then(response  => response.json()).then(response => {
-        // console.log(response);
+    }).then(response => response.json()).then(response => {
+        //console.log(response);
         // span_fecha pinta en el modal la fecha, response.fecha toma la fecha de la respuesta json 
         span_fecha.innerHTML = response.fecha;
     });
@@ -48,13 +48,40 @@ function escribir_fecha_modal(ID){
 
 
 
+// evento click del boton del modal formulario Nueva Actividad
+    btn_frm_add_actividad.addEventListener("click", ()=>{
+        
+        let form = document.getElementById("frm_nueva_actividad");
+        
+        
+        fetch("insertar_actividad.php", {
+            method: "POST",
+            body: new FormData(form)
+            
+        }).then(response  => response.text()).then(response =>{
 
-btn_frm_add_actividad.addEventListener("click", ()=>{
+            console.log(response);
+            
+            if (response == "ok") {
+                // alert ("Actividad Agregada");   
+                location.reload();        
+            }
+            else{
+                alert ("error");        
+                location.reload();  
+            };       
+        })
+
+    });
+
+
+// evento click del boton del modal formulario Nuevo Gasto
+btn_frm_add_gasto.addEventListener("click", ()=>{
      
-    let form = document.getElementById("frm_nueva_actividad");
+    let form = document.getElementById("frm_nuevo_gasto");
     
     
-    fetch("insertar_actividad.php", {
+    fetch("insertar_gasto.php", {
         method: "POST",
         body: new FormData(form)
         
@@ -63,11 +90,11 @@ btn_frm_add_actividad.addEventListener("click", ()=>{
         console.log(response);
         
         if (response == "ok") {
-            // alert ("Actividad Agregada");   
+            // alert ("Gasto Agregado");   
             location.reload();        
         }
         else{
-            alert ("error");        
+            alert ("error: vuelve a intentarlo");        
             location.reload();  
         };       
     })
@@ -76,4 +103,24 @@ btn_frm_add_actividad.addEventListener("click", ()=>{
 
 
 
+function escribir_fecha_modal2(ID){
 
+    let input_id_fecha2 =document.getElementById("id_fecha2");
+    let span_fecha2 =document.getElementById("span_fecha_modal2");
+
+    // el ID del dia, se lo pasa al input id_fecha, para despues enviarlo a la base de datos, con el registro de la nueva actividad
+    input_id_fecha2.value = ID;
+
+    //console.log(ID);
+
+    fetch("reqUnaFecha.php",{
+        method: "POST",
+        body: ID
+
+    }).then(response => response.json()).then(response => {
+        //console.log(response);
+        // span_fecha pinta en el modal la fecha, response.fecha toma la fecha de la respuesta json 
+        span_fecha2.innerHTML = response.fecha;
+    });
+
+};

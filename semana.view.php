@@ -30,6 +30,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <!---------header------------------------------->
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Día</h1>
@@ -68,6 +69,7 @@
 
 
 <!------- cards dias de la  semana -------------->
+
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php foreach($resultado as $row): ?>
@@ -76,18 +78,18 @@
         <div class="col">
             <div class="card h-100">
 
-                <!-- Sección azul con la fecha  -->
+    <!-- Sección azul con la fecha  ----------------------------->
                 <h4 class="card-title text-center bg-info-subtle"><?php echo $row['fecha']; ?> </h4>
 
-                <!-- header Actividades accion click = abre modal para agregar actividad -->
+    <!-- header Actividades accion click = abre modal para agregar actividad -->
                 
-                <div class="card-header" data-bs-toggle="modal" data-bs-target="#nuevaActividadModal" onclick="escribir_fecha_modal(<?php echo $row['ID']; ?>)">
+                <div class="card-header" data-bs-toggle="modal" data-bs-target="#nuevaActividadModal" onclick="escribir_fecha_modal(<?php echo $row['ID'];?>)">
                                        
-                    <h5>Actividades</h5>
+                    <h5>Actividades<?php echo $row['ID']; ?></h5>
                     
                 </div>
                
-                <div class="card-body">
+                <div class="card-body" id="dayCard">
                     <!-- Este codigo php hace la peticion a la base de datos a todas las actividades de acuerdo al id de fecha  -->
                     <?php
                     $id_fecha = $row['ID']; 
@@ -98,13 +100,16 @@
                 
                     $res = $statement->fetchAll();
                     ?>
-                    <table class="table table-hover table table-sm">
-                        <tr>
+
+                    <!----------------- Tabla de Actividades ------------------------>
+                    <table class="table table-hover table-striped table-sm table-bordered" >
+                        <thead class="table-info">
                             <th scope="col">Cliente</th>
                             <th scope="col">O.S.</th>
                             <th scope="col">hora inicial</th>
                             <th scope="col">hora final</th>
-                        </tr>
+                            <th scope="col"></th>
+                        </thead>
                         <?php foreach($res as $fila):?>
                         <tr>
                             <td><?php echo $fila['cliente'] ?></td>
@@ -117,10 +122,13 @@
                         </tr>
                         <?php endforeach;?>
                     </table>
+                    <!-----------------Fin de la Tabla de Actividades ------------------------>
                 </div> 
 
-                <div class="card-header" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <h5>Gastos</h5>
+    <!--- Card seccion GASTOS ---------------------------------->
+
+                <div class="card-header" data-bs-toggle="modal" data-bs-target="#nuevoGastoModal" onclick="escribir_fecha_modal2(<?php echo $row['ID']; ?>)">
+                    <h5>Gastos<?php echo $row['ID']; ?></h5>
                 </div>
 
                 <div class="card-body">
@@ -152,10 +160,9 @@
                     </table>
                         
                 </div> 
-
+    <!-- Card seccion FOOTER ---------------------------->
                 <div class="card-footer">
-                        
-                        
+                                               
                 </div>
             </div>
         </div>
@@ -229,8 +236,65 @@
         </div>
     </div>
 </div>
-
 <!--FIN Modal Nueva actividad ----------------------------->
+
+
+<!-- Modal Nuevo Gasto -------------------------------->
+<div class="modal fade" id="nuevoGastoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!---------header------------------------------->
+            <!-- el span sirve para pintar por innerHTML la fecha que corresponde al ID del dia esta funcion js se encuantra en: semana.js // function escribir_fecha_modal(ID) -->
+            <div class="modal-header">
+               
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Nuevo Gasto a la fecha: <span id="span_fecha_modal2"></span> </h1>
+                               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+            </div>
+            <!---------header------------------------------->
+            
+
+            <!---------body formulario------------------------------->  
+
+            <div class="modal-body">
+                <form action="" method="POST" id="frm_nuevo_gasto">
+
+                    <div class="form-floating mb-3">                                              
+                        <input required type="text" class="form-control" id="concepto" name="concepto" placeholder="Concepto" >
+                        <label for="cliente">Concepto</label>
+                    </div>
+
+                    <div class="form-floating mb-3"> 
+                        <input required type="number" class="form-control" id="total" name="total" placeholder="Total" >
+                        <label for="os">Total mxn</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input required type="text" class="form-control" id="formapago" name="formapago" placeholder="Forma de Pago" >
+                        <label for="hini">Forma de Pago</label>
+                    </div>
+
+                        <!-- en este input se carga el value, del id de la fecha conla funcion js: function escribir_fecha_modal(ID) del archivo // semana.js  -->
+                        <input type="text" value="" id="id_fecha2" name="id_fecha2">
+         
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                        <button id="btn_frm_add_gasto" type="button" class="btn btn-primary">Guardar</button>
+
+                    </div>
+
+                </form>
+            </div>
+            <!---------body------------------------------->          
+        </div>
+    </div>
+</div>
+<!--FIN Modal Nuevo Gasto ----------------------------->
+
 
 
 
@@ -238,7 +302,8 @@
 <div class="container">
     <div class="row justify-content-end">
         <div class="col-4">
-            <button type="button" style="width: 150px;" class="btn btn-primary">Generar PDF</button>
+            <!-- <button type="button" style="width: 150px;" class="btn btn-primary">Generar PDF</button> -->
+            <a href="fpdf/tutorial/tuto5.php" target="_blank" style="width: 150px; height: 42px" class="btn btn-primary">Generar PDF</a>
         </div>
     </div>
 </div>
