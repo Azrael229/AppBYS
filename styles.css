@@ -8,7 +8,14 @@
 .col{
     display: flex;
     justify-content: space-around;
+
 }
-#dayCard{
+/* #dayCard{
     overflow: auto;
+}
+#dayCardGastos{
+    overflow: auto;
+} */
+#card{
+    box-shadow: 2px 2px 15px rgb(4, 0, 23);
 }

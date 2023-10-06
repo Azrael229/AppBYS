@@ -60,7 +60,7 @@ function escribir_fecha_modal(ID){
             
         }).then(response  => response.text()).then(response =>{
 
-            console.log(response);
+            //console.log(response);
             
             if (response == "ok") {
                 // alert ("Actividad Agregada");   
@@ -87,7 +87,7 @@ btn_frm_add_gasto.addEventListener("click", ()=>{
         
     }).then(response  => response.text()).then(response =>{
 
-        console.log(response);
+        //console.log(response);
         
         if (response == "ok") {
             // alert ("Gasto Agregado");   
