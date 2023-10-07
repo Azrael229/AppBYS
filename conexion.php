@@ -6,7 +6,7 @@
 // ('mysql:host=localhost;dbname=gastos_bys', 'root', '')
 
 try{
-    $conexion = new PDO('mysql:host=localhost;dbname=BD_solusoft', 'israelprogramador', '744920lovepass');
+    $conexion = new PDO('mysql:host=localhost;dbname=gastos_bys', 'root', '');
     // echo "Conexión OK";
 }catch(PDOException $e){
     echo "Error: " . $e->getMessage();

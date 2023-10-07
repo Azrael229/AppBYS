@@ -73,7 +73,7 @@
             <div class="list-group">
 
                 <?php foreach($res as $row): ?>
-                    <a href="semana.php?id=<?php echo $row['numero_semana'] ?>" name="<?php echo $row['numero_semana'] ?>"class="list-group-item list-group-item-action list-group-item-light">Semana <?php echo $row['numero_semana'] ?></a>
+                    <a href="semana.php?id=<?php echo $row['numero_semana'] ?>" name="<?php echo $row['numero_semana'] ?>" class="list-group-item list-group-item-action list-group-item-light">Semana <?php echo $row['numero_semana'] ?></a>
                 <?php endforeach; ?>
 
             </div>

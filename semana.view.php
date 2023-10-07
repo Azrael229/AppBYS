@@ -16,7 +16,7 @@
         <div class="row justify-content-center">
             <div class="col">
                 <!-- <button type="button" style="width: 150px;" class="btn btn-primary">Generar PDF</button> -->
-                <a href="fpdf/tutorial/tuto5.php" target="_blank" style="width: 150px; height: 42px" class="btn btn-primary">Generar PDF</a>
+                <a href="reportePDF.php?id=<?php print_r($id_num_sem);?>" name="" target="_blank" style="width: 150px; height: 42px" class="btn btn-primary">Generar PDF</a>
             </div>
         </div>
     </div>
