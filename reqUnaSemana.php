@@ -12,7 +12,7 @@
     $statement->execute();
 
     $resultado = $statement->fetchAll();
-
+    
     // foreach ($resultado as $fila)
     // echo $fila['ID'];
 
