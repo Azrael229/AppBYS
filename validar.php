@@ -7,7 +7,8 @@ $pass =  $_POST['pass'];
 // print_r ($pass);
 
 
-$conexion = mysqli_connect('localhost', 'root', '', 'gastos_bys');
+require ("conexion.php");
+
 
 $sql = "SELECT * FROM usuarios WHERE usuario='$usuario' and contrasena='$pass'";
 
