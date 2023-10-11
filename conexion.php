@@ -27,8 +27,8 @@ $dbnameR = "BD_solusoft";
 
 
 
-$conexion = new mysqli($servername, $username, $password, $dbname);
-// $conexion = new mysqli($servernameR, $usernameR, $passwordR, $dbnameR);
+// $conexion = new mysqli($servername, $username, $password, $dbname);
+$conexion = new mysqli($servernameR, $usernameR, $passwordR, $dbnameR);
 
 
 // Verifica la conexión
