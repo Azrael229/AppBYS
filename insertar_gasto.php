@@ -9,26 +9,23 @@
 
     $id_fecha = isset($_POST['id_fecha2']) ? $_POST['id_fecha2'] : "";
 
+    $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : "";
 
 
-    if ($concepto == "" || $total == "" || $formapago == "" || $id_fecha == ""){
+
+    if ($concepto == "" || $total == "" || $formapago == "" || $id_fecha == "" || $usuario == ""){
         echo "false";
     }
     else{ 
         
 
-         require ("conexion.php");
-
-        $statement = $conexion->prepare("INSERT INTO gastos (concepto, total, tipo_pago, fecha) VALUES (:concepto, :total, :formapago, :id_fecha)");
-
-        $statement->bindParam(":id_fecha", $id_fecha);
-        $statement->bindParam(":concepto", $concepto);
-        $statement->bindParam(":total", $total);
-        $statement->bindParam(":formapago", $formapago);
+        require ("conexion.php");
         
+        $sql ="INSERT INTO gastos (concepto, total, tipo_pago, fecha, usuario) 
+        VALUES ('$concepto', '$total', '$formapago', '$id_fecha', '$usuario')";
+        mysqli_query($conexion, $sql);
+        mysqli_close($conexion);
 
-        $statement->execute();
-        $conexion = null;
         echo "ok";
     }
 

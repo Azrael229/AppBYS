@@ -2,18 +2,22 @@
     box-sizing: border-box;
 }
 body{
-    background-color: rgb(239, 239, 239);
-}
-.row{
+    background-color: rgb(231, 231, 231);
+};
+/* .row{
     padding: 10px;
     
-}
+};
 .col{
-    display: flex;
-    justify-content: space-around;
 
-}
+    padding: 10px;
+
+    /* display: flex;
+    justify-content: space-around; */
+
+/* }
 
 #card{
     box-shadow: 2px 2px 15px rgb(4, 0, 23);
-}
+}; */
+

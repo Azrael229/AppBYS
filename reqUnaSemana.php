@@ -1,29 +1,32 @@
 <?php
+   
+    // esta solicutud pide a la base de datos que guarde en la variable $reslutado todos los dias de la semana X que le pasamos por GET id en la url del navegador y que coincidan con el ID de la semana y el nombre de usuario que actualmente tiene en sesion abierta
 
-    // esta solicutud pide a la base de datos que guarde en la variable $reslutado todos los dias de la semana X que le pasamos por GET id en la url del navegador
+    $varsesion = $_SESSION['usuario']; 
+    $id_num_sem = ($_GET['id']);
 
-
-     $id_num_sem = ($_GET['id']);
-    //  print_r($id_num_sem);
-
+    //  print_r($varsesion);
+    //  print_r($id_num_sem );
+    
     require ("conexion.php");
 
-    $statement = $conexion->prepare("SELECT * FROM fechas WHERE num_sem = $id_num_sem ORDER BY fecha ASC");
-    $statement->execute();
+    $sql = "SELECT * FROM fechas WHERE num_sem='$id_num_sem' and usuario='$varsesion' ORDER BY fecha ASC";
+    // devuelve la respuesta como objeto
+    $res = mysqli_query($conexion, $sql);
 
-    $resultado = $statement->fetchAll();
+    // la respuesta en un array fetch_all se debe pedir $resultado[0][1]
+    $resultado = mysqli_fetch_all($res);
+
+    // mysqli_fetch_assoc el valor que devuelve se establece en una variable tipo $resultado['fecha']
     
-    // foreach ($resultado as $fila)
-    // echo $fila['ID'];
+    function fechaFMT($fecha){
+        
+        $fecha1 = strtotime($fecha);                          
+        setlocale(LC_ALL, "es-Mx.UTF-8");
 
-    // print_r($resultado[0][0]);
-
-    // $id_fecha = $resultado[0][0];
-    // $statement = $conexion->prepare("SELECT * FROM actividades WHERE ID_fecha = $id_fecha");
-    // $statement->execute();
-
-    // $resultado2 = $statement->fetchAll();
-    // print_r($resultado2);
-
+        return strftime("%A", $fecha1)." ".strftime("%d", $fecha1)." ".strftime("%B", $fecha1)." ".strftime("%Y", $fecha1);
+    }
+        
+    
     
 ?>

@@ -7,10 +7,12 @@
     require ("conexion.php");
 
     $statement = $conexion->prepare("SELECT fecha FROM fechas WHERE ID = $idFecha");
-    $statement->execute();
+    $sql = "SELECT fecha FROM fechas WHERE ID = $idFecha";
+    $res = mysqli_query($conexion, $sql);
+    $respuesta = mysqli_fetch_object($res);
 
-    $respuesta = $statement->fetch(PDO::FETCH_ASSOC);
+    
 
-    echo json_encode($respuesta);
     // print_r($respuesta);
+    echo json_encode($respuesta);
 ?>

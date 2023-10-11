@@ -11,9 +11,12 @@
 
     $hfin = isset($_POST['hfin']) ? $_POST['hfin'] : "";
 
+    $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : "";
+
+
     
 
-    if ($id_fecha == "" || $cliente == "" || $os == "" || $hini == "" || $hfin == ""){
+    if ($id_fecha == "" || $cliente == "" || $os == "" || $hini == "" || $hfin == "" || $usuario == ""){
         echo "false";
     }
     else{ 
@@ -21,16 +24,10 @@
 
         require ("conexion.php");
 
-        $statement = $conexion->prepare("INSERT INTO actividades (cliente, os, hora_inicial, hora_final, ID_fecha) VALUES (:cliente, :os, :hini, :hfin, :id_fecha)");
-
-        $statement->bindParam(":id_fecha", $id_fecha);
-        $statement->bindParam(":cliente", $cliente);
-        $statement->bindParam(":os", $os);
-        $statement->bindParam(":hini", $hini);
-        $statement->bindParam(":hfin", $hfin);
-
-        $statement->execute();
-        $conexion = null;
+        $sql = "INSERT INTO actividades (cliente, os, hora_inicial, hora_final, ID_fecha, usuario) 
+        VALUES ('$cliente', '$os', '$hini', '$hfin', '$id_fecha', '$usuario')";
+        mysqli_query($conexion, $sql);
+        mysqli_close($conexion);
         echo "ok";
     }
 

@@ -32,7 +32,7 @@ function escribir_fecha_modal(ID){
     // el ID del dia, se lo pasa al input id_fecha, para despues enviarlo a la base de datos, con el registro de la nueva actividad
     input_id_fecha.value = ID;
 
-    //console.log(ID);
+    // console.log(ID);
 
     fetch("reqUnaFecha.php",{
         method: "POST",
