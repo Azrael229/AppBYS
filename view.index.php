@@ -53,7 +53,7 @@
             <!---------body  form------------------------------->
             
             <div class="modal-body">
-                <form action="" method="POST" id="frmArchSem">
+                <form action="insertSemana.php" method="POST" >
 
                     <div class="form-floating mb-3">
                         <input required type="number" class="form-control" id="nuemro_semana" name="num_sem" placeholder="Ingresa el número de semana" >
@@ -67,7 +67,7 @@
         
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button id="btnformArchSem"type="button" class="btn btn-primary">Guardar</button>              
+                        <button type="submit" class="btn btn-primary">Guardar</button>              
                     </div>
                 
                 </form>
@@ -101,7 +101,7 @@
 
 
 
-<script src="cod.js"></script>
+<!-- <script src="cod.js"></script> -->
 <?php require("footer.php"); ?>
 
 

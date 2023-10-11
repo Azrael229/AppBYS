@@ -5,20 +5,20 @@
     
     // $num_sem = $_POST['num_sem'];
     // print_r($num_sem);
+    // print_r($usuario);
 
-
+    
     if ($num_sem == "" || $usuario == ""){
         echo "false";
     }
     else{
 
         require ("conexion.php");
-        $statement = $conexion->prepare("INSERT INTO semana (numero_semana, usuario) VALUES (:num_sem, :usuario)");
-        $statement->bindParam(":num_sem", $num_sem);
-        $statement->bindParam(":usuario", $usuario);
+        $sql = "INSERT INTO semana (numero_semana, usuario) VALUES ('$num_sem', '$usuario')";
+        mysqli_query($conexion, $sql);
+        mysqli_close($conexion);
     
-        $statement->execute();
-        $conexion = null;
-        echo "ok";
+        header("Location:index.php");
+        // echo "ok";
     }
 ?>

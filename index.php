@@ -11,6 +11,7 @@
     
     
     require("reqRegTabSem.php");
+    require("insertSemana.php");
     require("view.index.php");
    
 
