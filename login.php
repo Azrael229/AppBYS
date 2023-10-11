@@ -3,9 +3,9 @@
 
 
 <div  class="container">
-    <div  class="row justify-content-center mt-5">
-        <div class="col-4">
-            <form class="p-4 shadow p-3 mb-5 bg-body-tertiary rounded" action="validar.php" method="POST">
+    <div  class="row justify-content-center mt-5 ">
+        <div class="col-4 w-auto ">
+            <form class="p-4 shadow p-3 mb-5 bg-body-tertiary rounded " action="validar.php" method="POST">
             <div class="col text-center">
                 <h4>Login App Gastos BYS</h4>
             </div>

@@ -22,14 +22,14 @@
 <!------- boton Generar PDF y Nuevo dia-------------->
     <div class="container">
         <div class="row m-4 ">
-            <div class="col">
+            <div class="col w-auto">
                 <!-- boton nuevo dia -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo Día</button>
             </div>
 
                 <!-- boton generar PDF -->
                 <!-- esta variable viene del archvio reqUnaSemana.php -->
-            <div class="col">
+            <div class="col w-auto">
                 <a href="reportePDF.php?id=<?php print_r($id_num_sem);?>" name="" target="_blank" class="btn btn-primary">Generar PDF</a>
             </div>
         </div>
