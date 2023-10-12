@@ -90,7 +90,7 @@
             <div class="col-8 list-group list-group-flush shadow p-2 mb-5 bg-body-tertiary rounded">
 
                 <?php foreach($res as $row): ?>
-                    <a href="semana.php?id=<?php echo $row[0] ?>" name="<?php echo $row[0] ?>" class="list-group-item list-group-item-action list-group-item-light">Semana <?php echo $row[0] ?></a>
+                    <a href="semana.php?id=<?php echo $row[0] ?>"  class="list-group-item list-group-item-action list-group-item-light">Semana <?php echo $row[0] ?></a>
                 <?php endforeach; ?>
 
             </div>
