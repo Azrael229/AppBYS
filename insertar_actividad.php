@@ -5,18 +5,16 @@
     
     $cliente = isset($_POST['cliente']) ? $_POST['cliente'] : "";
 
+    $ubicacion = isset($_POST['ubi']) ? $_POST['ubi'] : "";
+
     $os = isset($_POST['os']) ? $_POST['os'] : "";
-
-    $hini = isset($_POST['hini']) ? $_POST['hini'] : "";
-
-    $hfin = isset($_POST['hfin']) ? $_POST['hfin'] : "";
 
     $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : "";
 
 
     
 
-    if ($id_fecha == "" || $cliente == "" || $os == "" || $hini == "" || $hfin == "" || $usuario == ""){
+    if ($id_fecha == "" || $cliente == "" || $os == "" || $ubicacion == "" || $usuario == ""){
         echo "false";
     }
     else{ 
@@ -24,8 +22,8 @@
 
         require ("conexion.php");
 
-        $sql = "INSERT INTO actividades (cliente, os, hora_inicial, hora_final, ID_fecha, usuario) 
-        VALUES ('$cliente', '$os', '$hini', '$hfin', '$id_fecha', '$usuario')";
+        $sql = "INSERT INTO actividades (cliente, ubicacion, os, ID_fecha, usuario) 
+        VALUES ('$cliente', '$ubicacion', '$os', '$id_fecha', '$usuario')";
         mysqli_query($conexion, $sql);
         mysqli_close($conexion);
         echo "ok";

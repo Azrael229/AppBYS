@@ -9,565 +9,548 @@ if ($varsesion == "" || $varsesion == NULL){
     die();
 }
 
+
 require('fpdf/fpdf.php');
 require('reqUnaSemana.php');
+require('funciones.php');
 
-$pdf = new FPDF('P','mm','letter',true);
+
+
+$pdf = new FPDF('L','mm','letter',true);
 $pdf->AddPage();
-$pdf->SetFont('Arial','',8);
+$pdf->SetFont('Arial','',9);
+
+
+
+$pdf->Image("img/LOGO B&S2...png", 30,07, 35,0, "png");
 
 // Titulo del reporte y encabezado la variable con el id del nuemro de semana 
-$pdf->Cell(190, 6, "Reporte de Gastos Semana: $id_num_sem   $varsesion", "B",1,"C");
+$pdf->Cell(0, 2, "BASCULAS Y SOLUCIONES DE MEXICO", 0,1,"C");
 $pdf->Ln();
 
-////////////////////////////  1    /////////////////////////////////
-$pdf->SetXY(10,23);
+$pdf->Cell(0, 2, "REPORTE DE GASTOS Y TIEMPO EXTRA", 0,1,"C");
+$pdf->Ln();
+$pdf->Ln();
 
-if (isset ($resultado[0][1])) { 
+//datos del usuario y semana
+$pdf->SetX(80);
+$pdf->Cell(20, 4, "NOMBRE:", 0,0,"");
 
-    $fechaFMT = fechaFMT($resultado[0][1]);
-
-    $pdf->Cell(190, 4, $fechaFMT, 1, 0,"C",0);
+$res = reqUsuario($varsesion);
+foreach($res as $row):
+    $pdf->Cell(20, 4, $row['nombre'], 0,0,"");
     $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
-    $pdf->Ln();
-    
-    if (isset ($resultado[0][0])) {
+endforeach;
+$pdf->SetX(80);
+$pdf->Cell(20, 4, "SEMANA:", 0,0,"");
+$pdf->Cell(20, 4, $id_num_sem, 0,0,"");
 
-        $id_fechaPos1 = $resultado[0][0]; 
-        require ("conexion.php");
+    $semDel = semanaDEL($id_num_sem);
+$pdf->Cell(10, 4, "DEL:", 0,0,"");
+$pdf->Cell(40, 4, $semDel, 0,0,"");
 
-        $sql = "SELECT * FROM actividades WHERE ID_fecha = $id_fechaPos1";
-        $res = mysqli_query($conexion, $sql);
+    $semAL = semanaAL($id_num_sem);
+$pdf->Cell(8, 4, "AL:", 0,0,"");
+$pdf->Cell(20, 4, $semAL, 0,0,"");
+$pdf->Ln();
+$pdf->Ln();
 
-        $pdf->SetX(10);
-        foreach($res as $fila):
+//Encabezados
 
-            $pdf->Cell(30, 4, $fila['cliente'] , 1, 0,"C",0);
-            $pdf->Cell(15, 4, $fila['os'], 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_inicial'] , 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_final'], 1, 0,"C",0);
-            $pdf->Ln();
-            
-        endforeach;
-        
-        $id_fecha = $resultado[0][0]; 
-        require ("conexion.php");
+$pdf->Cell(150, 4, "ACTIVIDADES", 1, 0,"C",0);
+$pdf->Cell(100, 4, "GASTOS", 1, 0,"C",0);
+$pdf->Ln();
 
-        $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetY(35);
-        foreach($res as $fila):
-
-        $pdf->SetX(105);
-        $pdf->Cell(40, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
-        $pdf->Cell(25, 4, $fila['total'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, ""  , 1, 0,"C",0);
-        $pdf->Ln();
-
-        endforeach;
-    }
-}else { 
-
-    $pdf->Cell(190, 4, "fecha sin registros", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
-    $pdf->Ln();
-
-}
+$pdf->Cell(20, 4, "Fecha", 1, 0,"C",0);
+$pdf->Cell(35, 4, "Cliente", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Ubicación", 1, 0,"C",0);
+$pdf->Cell(15, 4, "OS", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Horario 24h", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Tiempo Extra", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Importe T.E.", 1, 0,"C",0);
+$pdf->Cell(30, 4, "Descripción", 1, 0,"C",0);
+$pdf->Cell(30, 4, "Notas", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Forma Pago", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Importe", 1, 0,"C",0);
+$pdf->Ln();
 
 
-////////////////////////////   2     ///////////////////////////////////////////
+//  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
 
-$pdf->SetXY(10,59);
+// columna fecahs
+//lunes
+$fechaFMT = colfechas($resultado[0][1]);
+$pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+$pdf->Ln();
+//martes
+$fechaFMT = colfechas($resultado[1][1]);
+$pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+$pdf->Ln();
+//miercoles
+$fechaFMT = colfechas($resultado[2][1]);
+$pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+$pdf->Ln();
+//jueves
+$fechaFMT = colfechas($resultado[3][1]);
+$pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+$pdf->Ln();
+//viernes
+$fechaFMT = colfechas($resultado[4][1]);
+$pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+$pdf->Ln();
+//sabado
+$fechaFMT = colfechas($resultado[5][1]);
+$pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+$pdf->Ln();
+//domingo
+$fechaFMT = colfechas($resultado[6][1]);
+$pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+$pdf->Ln();
 
-if (isset ($resultado[1][1])) { 
 
-    $fechaFMT = fechaFMT($resultado[1][1]);
 
-    $pdf->Cell(190, 4, $fechaFMT, 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+
+// fila  actividades Lunes
+$res = reqActividad($resultado[0][0]);
+$pdf->SetXY(30,40);
+foreach($res as $fila):
+    $pdf->SetX(30);
+
+    $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
+    $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
+   
     $pdf->Ln();
     
-    if (isset ($resultado[1][0])) {
+endforeach;
 
-        $id_fecha = $resultado[1][0]; 
-        require ("conexion.php");
+//fila Horarios Lunes
+$res = reqHorasfecha($resultado[0][0]);
+$pdf->SetXY(100,40);
+foreach($res as $fila):
 
-        $sql = "SELECT * FROM actividades WHERE ID_fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetX(10);
-        foreach($res as $fila):
-
-            $pdf->Cell(30, 4, $fila['cliente'] , 1, 0,"C",0);
-            $pdf->Cell(15, 4, $fila['os'], 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_inicial'] , 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_final'], 1, 0,"C",0);
-            $pdf->Ln();
-            
-        endforeach;
-
-        $id_fecha = $resultado[1][0]; 
-        require ("conexion.php");
-
-        $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetY(71);
-        foreach($res as $fila):
-
-        $pdf->SetX(105);
-        $pdf->Cell(40, 4, $fila['concepto']  , 1, 0,"C",0);
-        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
-        $pdf->Cell(25, 4, $fila['total'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, ""  , 1, 0,"C",0);
-        $pdf->Ln();
-
-        endforeach;
-    }
-}else { 
-
-    $pdf->Cell(190, 4, "fecha sin registros", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+    $pdf->Cell(20, 4, 'E     '.$fila['entrada'], 1, 0,"L",0);
+    $pdf->Cell(20, 4, $fila['extras'], 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. $fila['importeTE'], 1, 0,"R",0);
+    $pdf->SetXY(100,44);
+    $pdf->Cell(20, 4, 'S     '.$fila['salida'], 1, 0,"L",0);
     $pdf->Ln();
 
-}
+endforeach;
 
-// //////////////////////////////    3   /////////////////////////////////////
-$pdf->SetXY(10,95);
+//fila gastos Lunes
+$id_fecha = $resultado[0][0]; 
+require ("conexion.php");
 
-if (isset ($resultado[2][1])) { 
+$sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
+$res = mysqli_query($conexion, $sql);
+mysqli_close($conexion);
 
-    $fechaFMT = fechaFMT($resultado[2][1]);
 
-    $pdf->Cell(190, 4, $fechaFMT, 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+$pdf->SetXY(160,40);
+foreach($res as $fila):
+    $pdf->SetX(160);
+
+    $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
+    $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
     $pdf->Ln();
 
-    if (isset ($resultado[2][0])) {
+endforeach;
+//fin del Lunes
 
-        $id_fecha = $resultado[2][0]; 
-        require ("conexion.php");
 
-        $sql = "SELECT * FROM actividades WHERE ID_fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
+//  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
+// fila  actividades martes
+$res = reqActividad($resultado[1][0]);
+$pdf->SetXY(30,56);
+foreach($res as $fila):
+    $pdf->SetX(30);
 
-        $pdf->SetX(10);
-        foreach($res as $fila):
-
-            $pdf->Cell(30, 4, $fila['cliente'] , 1, 0,"C",0);
-            $pdf->Cell(15, 4, $fila['os'], 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_inicial'] , 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_final'], 1, 0,"C",0);
-            $pdf->Ln();
-            
-        endforeach;
-
-        $id_fecha = $resultado[2][0]; 
-        require ("conexion.php");
-
-        $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetY(107);
-        foreach($res as $fila):
-
-        $pdf->SetX(105);
-        $pdf->Cell(40, 4, $fila['concepto']  , 1, 0,"C",0);
-        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
-        $pdf->Cell(25, 4, $fila['total'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, ""  , 1, 0,"C",0);
-        $pdf->Ln();
-
-        endforeach;
-    }
-}else { 
-
-    $pdf->Cell(190, 4, "fecha sin registros", 1, 0,"C",0);
+    $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
+    $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
+   
     $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+    
+endforeach;
+
+
+//fila Horarios martes
+$res = reqHorasfecha($resultado[1][0]);
+$pdf->SetXY(100,56);
+foreach($res as $fila):
+
+    $pdf->Cell(20, 4, 'E     '.$fila['entrada'], 1, 0,"L",0);
+    $pdf->Cell(20, 4, $fila['extras'], 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. $fila['importeTE'], 1, 0,"R",0);
+    $pdf->SetXY(100,60);
+    $pdf->Cell(20, 4, 'S     '.$fila['salida'], 1, 0,"L",0);
     $pdf->Ln();
 
-}
+endforeach;
 
-// //////////////////////////   4   ///////////////////////////////////////////
 
-$pdf->SetXY(10,131);
+//fila gastos MArtes
 
-if (isset ($resultado[3][1])) { 
+$id_fecha = $resultado[1][0]; 
+require ("conexion.php");
 
-    $fechaFMT = fechaFMT($resultado[3][1]);
+$sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
+$res = mysqli_query($conexion, $sql);
 
-    $pdf->Cell(190, 4, $fechaFMT, 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+$pdf->SetXY(160,56);
+foreach($res as $fila):
+$pdf->SetX(160);
+    
+    $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
+    $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
+
     $pdf->Ln();
 
-    if (isset ($resultado[3][0])) {
+endforeach;
+//fin del Martes
 
-        $id_fecha = $resultado[3][0]; 
-        require ("conexion.php");
 
-        $sql = "SELECT * FROM actividades WHERE ID_fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
+//  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
+// fila  actividades Miercoles
+$res = reqActividad($resultado[2][0]);
+$pdf->SetXY(30,72);
+foreach($res as $fila):
+    $pdf->SetX(30);
 
-        $pdf->SetX(10);
-        foreach($res as $fila):
-
-            $pdf->Cell(30, 4, $fila['cliente'] , 1, 0,"C",0);
-            $pdf->Cell(15, 4, $fila['os'], 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_inicial'] , 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_final'], 1, 0,"C",0);
-            $pdf->Ln();
-            
-        endforeach;
-
-        $id_fecha = $resultado[3][0]; 
-        require ("conexion.php");
-
-        $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetY(143);
-        foreach($res as $fila):
-
-        $pdf->SetX(105);
-        $pdf->Cell(40, 4, $fila['concepto']  , 1, 0,"C",0);
-        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
-        $pdf->Cell(25, 4, $fila['total'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, ""  , 1, 0,"C",0);
-        $pdf->Ln();
-
-        endforeach;
-    }
-}else { 
-
-    $pdf->Cell(190, 4, "fecha sin registros", 1, 0,"C",0);
+    $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
+    $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
+   
     $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+    
+endforeach;
+
+
+//fila HorariosMiercoles
+$res = reqHorasfecha($resultado[2][0]);
+$pdf->SetXY(100,72);
+foreach($res as $fila):
+
+    $pdf->Cell(20, 4, 'E     '.$fila['entrada'], 1, 0,"L",0);
+    $pdf->Cell(20, 4, $fila['extras'], 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. $fila['importeTE'], 1, 0,"R",0);
+    $pdf->SetXY(100,76);
+    $pdf->Cell(20, 4, 'S     '.$fila['salida'], 1, 0,"L",0);
     $pdf->Ln();
 
-}
+endforeach;
 
-// /////////////////////   5    ///////////////////////////////////////////////
-$pdf->SetXY(10,167);
 
-if (isset ($resultado[4][1])) { 
+//fila gastos Miercoles
+$id_fecha = $resultado[2][0]; 
+require ("conexion.php");
 
-    $fechaFMT = fechaFMT($resultado[4][1]);
+$sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
+$res = mysqli_query($conexion, $sql);
 
-    $pdf->Cell(190, 4, $fechaFMT, 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+$pdf->SetXY(160,72);
+foreach($res as $fila):
+    $pdf->SetX(160);
+
+    $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
+    $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
+
     $pdf->Ln();
 
-    if (isset ($resultado[4][0])) {
+endforeach;
+//fin del Miercoles
 
-        $id_fecha = $resultado[4][0]; 
-        require ("conexion.php");
 
-        $sql = "SELECT * FROM actividades WHERE ID_fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
+//  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
+// fila  actividades Jueves
+$res = reqActividad($resultado[3][0]);
+$pdf->SetXY(30,88);
+foreach($res as $fila):
+    $pdf->SetX(30);
 
-        $pdf->SetX(10);
-        foreach($res as $fila):
-
-            $pdf->Cell(30, 4, $fila['cliente'] , 1, 0,"C",0);
-            $pdf->Cell(15, 4, $fila['os'], 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_inicial'] , 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_final'], 1, 0,"C",0);
-            $pdf->Ln();
-            
-        endforeach;
-
-        $id_fecha = $resultado[4][0]; 
-        require ("conexion.php");
-
-        $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetY(179);
-        foreach($res as $fila):
-
-        $pdf->SetX(105);
-        $pdf->Cell(40, 4, $fila['concepto']  , 1, 0,"C",0);
-        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
-        $pdf->Cell(25, 4, $fila['total'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, ""  , 1, 0,"C",0);
-        $pdf->Ln();
-
-        endforeach;
-    }
-}else { 
-
-    $pdf->Cell(190, 4, "fecha sin registros", 1, 0,"C",0);
+    $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
+    $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
+   
     $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+    
+endforeach;
+
+
+//fila Horarios Jueves
+$res = reqHorasfecha($resultado[3][0]);
+$pdf->SetXY(100,88);
+foreach($res as $fila):
+
+    $pdf->Cell(20, 4, 'E     '.$fila['entrada'], 1, 0,"L",0);
+    $pdf->Cell(20, 4, $fila['extras'], 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. $fila['importeTE'], 1, 0,"R",0);
+    $pdf->SetXY(100,92);
+    $pdf->Cell(20, 4, 'S     '.$fila['salida'], 1, 0,"L",0);
     $pdf->Ln();
 
-}
+endforeach;
 
-// //////////////////    6    ////////////////////////////////////////////////////////
-$pdf->SetXY(10,203);
 
-if (isset ($resultado[5][1])) { 
+//fila gastos Jueves
+$id_fecha = $resultado[3][0]; 
+require ("conexion.php");
 
-    $fechaFMT = fechaFMT($resultado[5][1]);
+$sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
+$res = mysqli_query($conexion, $sql);
 
-    $pdf->Cell(190, 4, $fechaFMT , 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+$pdf->SetXY(160,88);
+foreach($res as $fila):
+    $pdf->SetX(160);
+
+    $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
+    $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
+
     $pdf->Ln();
 
-    if (isset ($resultado[5][0])) {
+endforeach;
+//fin del Jueves
 
-        $id_fecha = $resultado[5][0]; 
-        require ("conexion.php");
 
-        $sql = "SELECT * FROM actividades WHERE ID_fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
+//  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
+// fila  actividades Viernes
+$res = reqActividad($resultado[4][0]);
+$pdf->SetXY(30,104);
+foreach($res as $fila):
+    $pdf->SetX(30);
 
-        $pdf->SetX(10);
-        foreach($res as $fila):
-
-            $pdf->Cell(30, 4, $fila['cliente'] , 1, 0,"C",0);
-            $pdf->Cell(15, 4, $fila['os'], 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_inicial'] , 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_final'], 1, 0,"C",0);
-            $pdf->Ln();
-            
-        endforeach;
-
-        $id_fecha = $resultado[5][0]; 
-        require ("conexion.php");
-
-        $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetY(215);
-        foreach($res as $fila):
-
-        $pdf->SetX(105);
-        $pdf->Cell(40, 4, $fila['concepto']  , 1, 0,"C",0);
-        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
-        $pdf->Cell(25, 4, $fila['total'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, ""  , 1, 0,"C",0);
-        $pdf->Ln();
-
-        endforeach;
-    }
-}else { 
-
-    $pdf->Cell(190, 4, "fecha sin registros", 1, 0,"C",0);
+    $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
+    $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
+   
     $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+    
+endforeach;
+
+
+//fila Horarios Viernes
+$res = reqHorasfecha($resultado[4][0]);
+$pdf->SetXY(100,104);
+foreach($res as $fila):
+
+    $pdf->Cell(20, 4, 'E     '.$fila['entrada'], 1, 0,"L",0);
+    $pdf->Cell(20, 4, $fila['extras'], 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. $fila['importeTE'], 1, 0,"R",0);
+    $pdf->SetXY(100,108);
+    $pdf->Cell(20, 4, 'S     '.$fila['salida'], 1, 0,"L",0);
     $pdf->Ln();
 
-}
+endforeach;
 
-// ///////////////     7     ////////////////////////////////////////////////////////////
-$pdf->SetXY(10,239);
 
-if (isset ($resultado[6][1])) { 
+//fila gastos Viernes
+$id_fecha = $resultado[4][0]; 
+require ("conexion.php");
 
-    $fechaFMT = fechaFMT($resultado[6][1]);
+$sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
+$res = mysqli_query($conexion, $sql);
 
-    $pdf->Cell(190, 4, $fechaFMT, 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+$pdf->SetXY(160,104);
+foreach($res as $fila):
+    $pdf->SetX(160);
+
+    $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
+    $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
+
     $pdf->Ln();
 
-    if (isset ($resultado[6][0])) {
+endforeach;
+//fin del Viernes
 
-        $id_fecha = $resultado[6][0]; 
-        require ("conexion.php");
 
-        $sql = "SELECT * FROM actividades WHERE ID_fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
+//  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
+// fila  actividades Sabado
+$res = reqActividad($resultado[5][0]);
+$pdf->SetXY(30,120);
+foreach($res as $fila):
+    $pdf->SetX(30);
 
-        $pdf->SetX(10);
-        foreach($res as $fila):
-
-            $pdf->Cell(30, 4, $fila['cliente'] , 1, 0,"C",0);
-            $pdf->Cell(15, 4, $fila['os'], 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_inicial'] , 1, 0,"C",0);
-            $pdf->Cell(25, 4, $fila['hora_final'], 1, 0,"C",0);
-            $pdf->Ln();
-            
-        endforeach;
-
-        $id_fecha = $resultado[6][0]; 
-        require ("conexion.php");
-
-        $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
-        $res = mysqli_query($conexion, $sql);
-
-        $pdf->SetY(251);
-        foreach($res as $fila):
-
-        $pdf->SetX(105);
-        $pdf->Cell(40, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
-        $pdf->Cell(25, 4, $fila['total'] , 1, 0,"C",0);
-        $pdf->Cell(15, 4, ""  , 1, 0,"C",0);
-        $pdf->Ln();
-
-        endforeach;
-    }
-}else { 
-
-    $pdf->Cell(190, 4, "fecha sin registros", 1, 0,"C",0);
+    $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
+    $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
+   
     $pdf->Ln();
-    $pdf->Cell(95, 4, "Actividades", 1, 0,"C",0);
-    $pdf->Cell(95, 4, "Gastos", 1, 0,"C",0);
-    $pdf->Ln();
-    $pdf->Cell(30, 4, "Cliente", 1, 0,"C",0);
-    $pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Ini", 1, 0,"C",0);
-    $pdf->Cell(25, 4, "Hora Fin", 1, 0,"C",0);
-    $pdf->Cell(40, 4, "Concepto", 1,0,"C",0);
-    $pdf->Cell(15, 4, "Pago", 1,0,"C",0);
-    $pdf->Cell(25, 4, "Total", 1,0,"C",0);
-    $pdf->Cell(15, 4, "" ,1,0,"C",0);
+    
+endforeach;
+
+
+//fila Horarios Sabado
+$res = reqHorasfecha($resultado[5][0]);
+$pdf->SetXY(100,120);
+foreach($res as $fila):
+
+    $pdf->Cell(20, 4, 'E     '.$fila['entrada'], 1, 0,"L",0);
+    $pdf->Cell(20, 4, $fila['extras'], 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. $fila['importeTE'], 1, 0,"R",0);
+    $pdf->SetXY(100,124);
+    $pdf->Cell(20, 4, 'S     '.$fila['salida'], 1, 0,"L",0);
     $pdf->Ln();
 
-}
+endforeach;
+
+
+//fila gastos Sabado
+$id_fecha = $resultado[5][0]; 
+require ("conexion.php");
+
+$sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
+$res = mysqli_query($conexion, $sql);
+
+$pdf->SetXY(160,120);
+foreach($res as $fila):
+    $pdf->SetX(160);
+
+    $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
+    $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
+
+    $pdf->Ln();
+
+endforeach;
+//fin del Sabado
+
+
+//  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
+// fila  actividades Domingo
+$res = reqActividad($resultado[6][0]);
+$pdf->SetXY(30,136);
+foreach($res as $fila):
+    $pdf->SetX(30);
+
+    $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
+    $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
+   
+    $pdf->Ln();
+    
+endforeach;
+
+
+//fila Horarios Domingo
+$res = reqHorasfecha($resultado[6][0]);
+$pdf->SetXY(100,136);
+foreach($res as $fila):
+
+    $pdf->Cell(20, 4, 'E     '.$fila['entrada'], 1, 0,"L",0);
+    $pdf->Cell(20, 4, $fila['extras'], 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. $fila['importeTE'], 1, 0,"R",0);
+    $pdf->SetXY(100,140);
+    $pdf->Cell(20, 4, 'S     '.$fila['salida'], 1, 0,"L",0);
+    $pdf->Ln();
+
+endforeach;
+
+
+//fila gastos Domingo
+$id_fecha = $resultado[6][0]; 
+require ("conexion.php");
+
+$sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
+$res = mysqli_query($conexion, $sql);
+
+$pdf->SetXY(160,136);
+foreach($res as $fila):
+    $pdf->SetX(160);
+    
+    $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
+    $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+    $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
+
+    $pdf->Ln();
+
+endforeach;
+//fin del Domingo
+
+
+//Tabla de Resultados
+
+$pdf->SetXY(120,156);
+
+$pdf->Cell(20, 4, "Tiempo Extra", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Importe T.E.", 1, 0,"C",0);
+
+$pdf->SetXY(120,160);
+$totTE = sumSemanalTE($id_num_sem);
+$pdf->Cell(20, 4, $totTE, 1, 0,"C",0);
+
+$res = reqUsuario($varsesion);
+foreach($res as $row):
+
+    $importeTE = multiplicar($totTE, $row['valorTE']);
+
+    $pdf->Cell(20, 4,'$ '. $importeTE, 1, 0,"R",0);
+
+endforeach;
+
+
+
+
+
+$pdf->SetXY(235,156);
+$pdf->Cell(25, 4, "Total Gastos", 1, 0,"C",0);
+$pdf->SetXY(235,160);
+$sum = sumaGastosTot($id_num_sem);
+$pdf->Cell(25, 4, '$ '. $sum, 1, 0,"R",0);
+
+
+$pdf->SetXY(170,156);
+$pdf->Cell(60, 4, "Reembolso Gastos", 1, 0,"C",0);
+
+
+$pdf->SetXY(170,160);
+$pdf->Cell(35, 4, "Facturados en Efectivo", 1, 0,"C",0);
+$pdf->SetXY(205,160);
+$sum = sumaGastosEfec($id_num_sem);
+$pdf->Cell(25, 4, '$ '. $sum, 1, 0,"R",0);
+
+$pdf->SetXY(170,164);
+$pdf->Cell(35, 4, "Vale Azul", 1, 0,"C",0);
+$pdf->SetXY(205,164);
+$sum = sumaGastosVale($id_num_sem);
+$pdf->Cell(25, 4, '$ '. $sum, 1, 0,"R",0);
+
+
+
+
+$pdf->SetLineWidth(0.7);
+// horizontales
+$pdf->Line(10,32,260,32);
+$pdf->Line(10,40,260,40);
+$pdf->Line(10,56,260,56);
+$pdf->Line(10,72,260,72);
+$pdf->Line(10,88,260,88);
+$pdf->Line(10,104,260,104);
+$pdf->Line(10,120,260,120);
+$pdf->Line(10,136,260,136);
+$pdf->Line(10,152,260,152);
+// verticales
+$pdf->Line(10,32,10,152);
+$pdf->Line(30,40,30,152);
+$pdf->Line(100,40,100,152);
+$pdf->Line(160,40,160,152);
+$pdf->Line(260,32,260,152);
+
+
+
+
 $pdf->Output("I","gastos $varsesion semana $id_num_sem.pdf", true);
 
 

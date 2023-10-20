@@ -13,19 +13,12 @@
     $sql = "SELECT * FROM fechas WHERE num_sem='$id_num_sem' and usuario='$varsesion' ORDER BY fecha ASC";
     // devuelve la respuesta como objeto
     $res = mysqli_query($conexion, $sql);
-
     // la respuesta en un array fetch_all se debe pedir $resultado[0][1]
     $resultado = mysqli_fetch_all($res);
+    mysqli_close($conexion);
 
     // mysqli_fetch_assoc el valor que devuelve se establece en una variable tipo $resultado['fecha']
     
-    function fechaFMT($fecha){
-        
-        $fecha1 = strtotime($fecha);                          
-        setlocale(LC_ALL, "es-Mx.UTF-8");
-
-        return strftime("%A", $fecha1)." ".strftime("%d", $fecha1)." ".strftime("%B", $fecha1)." ".strftime("%Y", $fecha1);
-    }
         
     
     

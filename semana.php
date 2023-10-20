@@ -11,6 +11,7 @@
 
 
     require("reqUnaSemana.php");
+    require("funciones.php");
    
     require("semana.view.php");
 

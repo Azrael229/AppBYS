@@ -1,13 +1,13 @@
 <?php
-    // Esta variable viene de semana.view.php al hacer click en eliminar la actividad 
+    // Esta variable viene de semana.view.php al hacer click en eliminar la gasto 
    
     // este GET consigue el id de la URL 
-        $idFecha = ($_GET['id']);
+        $idGasto = ($_GET['id']);
         // echo $idFecha;
         
         require ("conexion.php");
     
-        $sql = "DELETE FROM actividades WHERE ID = $idFecha";
+        $sql = "DELETE FROM gastos WHERE ID = $idGasto";
         mysqli_query($conexion, $sql);
         mysqli_close($conexion);
     
@@ -18,24 +18,3 @@
 
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

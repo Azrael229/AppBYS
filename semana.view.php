@@ -23,7 +23,7 @@
     <div class="container">
         <div class="row m-4 ">
             <div class="col w-auto">
-                <!-- boton nuevo dia -->
+                <!-- boton nuevo dia  el target lleva al modal Nuevo Dia -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo Día</button>
             </div>
 
@@ -84,23 +84,57 @@
 
 
 
+
+
+
 <!------- cards dias de la  semana -------------->
 
-<div class="container">
-    <div class="row row-cols-md-3 gy-5">
+<div class="container w-auto">
+    <div class="row gy-5">
 
         <!-- este array viene del archivo reqUnaSemana.php -->
         <?php foreach($res as $row): ?>
-            <div class="">
-                <div class="card h-100 shadow p-3 mb-6 bg-body-tertiary rounded m-3">
+            <div class="w-auto">
+                <div class="card h-100 shadow p-2 mb-6 bg-body-tertiary rounded m-3 w-auto">
+
 
                     <!-- Sección azul con la fecha  ----------------------------->
+                        <div class=" bg-primary-subtle p-2 mb-3">
+                            <!-- Est Funcion formatea la fecha para que aparezca tipo: lunes 10 octubre 2023  declarada en reqUnaSemana.php -->
+                            <?php $fechaFMT = fechaFMT($row['fecha']);?>
+                            <h4 class="card-title text-center"><?php echo $fechaFMT ?> </h4>
+                        
+                            <hr width="90%" style="margin: auto; opacity: 0.08;" class="mb-2">
 
-                        <!-- Est Funcion formatea la fecha para que aparezca tipo: lunes 10 octubre 2023  declarada en reqUnaSemana.php -->
-                        <?php $fechaFMT = fechaFMT($row['fecha']);?>
 
-                    <h4 class="card-title text-center bg-primary-subtle"><?php echo $fechaFMT ?> </h4>
-                    
+                            <!--Seccion Azul informacion de horarios y tiempo extra -->
+
+                            <div class="row">
+                                <div class="col w-auto">
+                                    <!-- boton nuevo dia -->
+                                    <button type="button"  class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHorarios" onclick="idfecha_modahoraios(<?php echo $row['ID'];?>)">Horarios</button>
+                                </div>
+                            </div>
+
+                            <!-- Aqui se pintan la hora de entrada y la hora de salida  -->
+                            <div class="row p-1">
+                                <div class="col">Entrada: <strong><span><?php echo $row['entrada']?></span></strong></div>
+                                <div class="col">Salida: <strong><span><?php echo $row['salida']?></span></strong></div>         
+                            </div>
+                            <!-- ----------------------------------------------------- -->
+                            <!-- Sección donde aparecen los resultddos del total de horas extras y el importe segun el precio. estas funciones se procesan en el archivo funciones.php -->
+                                                    
+                            <div class="row p-1">
+                                <div class="col">T. Extra: <strong><span><?php echo $row['extras']; ?></span></strong> </div>
+                                <div class="col">Total <strong><span>$ <?php echo $row['importeTE']; ?></span></strong> </div>
+                            </div>
+
+
+                        </div>
+                    <!-- ---------fin de la seccion Azul -------------------------------------------------->
+                                       
+
+
                     <!-- header Gris DIV Actividades accion click = abre modal para agregar actividad funcion declarada en semana.js -> reqUnaFecha.php aqui se genera el query-->                 
                     <div class="card-header bg-secondary-subtle" data-bs-toggle="modal" data-bs-target="#nuevaActividadModal" onclick="escribir_fecha_modal(<?php echo $row['ID'];?>)">
                                         
@@ -124,26 +158,18 @@
 
                             <thead class="table-info">
                                 <th scope="col" class="text-center">Cliente</th>
+                                <th scope="col" class="text-center">Ubicación</th>
                                 <th scope="col" class="text-center">Orden de Servicio</th>
-                                <th scope="col" class="text-center">hora inicial</th>
-                                <th scope="col" class="text-center">hora final</th>
                                 <th scope="col" class="text-center"></th>
                             </thead>
 
                             <!------------ Datos de tabla ---------------------------------------------->
                             <?php foreach($res as $fila):?>
-                                <!-- Este codigo formatea la hora a 5 digitos -->
-                                <?php
-                                $hora_inicial = $fila['hora_inicial'];
-                                $hora_inifmt = str_pad(substr($hora_inicial, 0, 5), 4, '0', STR_PAD_LEFT);
-                                $hora_final = $fila['hora_final'];
-                                $hora_finfmt = str_pad(substr($hora_final, 0, 5), 4, '0', STR_PAD_LEFT);
-                                ?>
+                                
                             <tr>
                                 <td class="text-center"><?php echo $fila['cliente'] ?></td>
+                                <td class="text-center"><?php echo $fila['ubicacion'] ?></td>
                                 <td class="text-center"><?php echo $fila['os'] ?></td>
-                                <td class="text-center"><?php echo $hora_inifmt ?></td>
-                                <td class="text-center"><?php echo $hora_finfmt ?></td>
                                 <td class="text-center">
                                     <a href="eliminar_actividad.php?id=<?php echo $fila['ID'] ?>" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -158,7 +184,7 @@
                     </div> 
 
                     <!--- Card seccion GASTOS ---------------------------------->
-
+                    
                     <div class="card-header bg-secondary-subtle" data-bs-toggle="modal" data-bs-target="#nuevoGastoModal" onclick="escribir_fecha_modal2(<?php echo $row['ID']; ?>)">
                         <h5>Gastos</h5>
                     </div>
@@ -171,22 +197,31 @@
                         $sql = "SELECT * FROM gastos WHERE fecha = $id_fecha";
                         $res = mysqli_query($conexion, $sql);
                         ?>
+
+                    <!-- -------------Encabezados de tabla ------------------------>
                         <table class="table table-hover table-striped table-sm table-bordered">
                             <thead class="table-info">
                                 <th scope="col" class="text-center">Concepto</th>
+                                <th scope="col" class="text-center">Notas</th>
                                 <th scope="col" class="text-center">Total</th>
                                 <th scope="col" class="text-center">Forma de Pago</th>
                                 <th scope="col" class="text-center"></th>
 
                             </thead>
+                            <!-- -------------Datos de tabla ------------------------>
                             <?php foreach($res as $fila):?>
                             <tr>
                                 <td class="text-center"><?php echo $fila['concepto'] ?></td>
-                                <td class="text-center">$ <?php echo $fila['total'] ?>.00</td>
+                                <td class="text-center"><?php echo $fila['notas'] ?></td>
+                                <td class="text-center">$ <?php echo number_format($fila['total'],2) ?></td>
                                 <td class="text-center"><?php echo $fila['tipo_pago'] ?></td>
-                                <td class="text-center"><a href=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                </svg></a></td>
+                                <td class="text-center">
+                                    <a href="eliminar_gasto.php?id=<?php echo $fila['ID'] ?>" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                        </svg>
+                                    </a>
+                                </td>
                             </tr>
                             <?php endforeach;?>
                         </table>  
@@ -234,19 +269,14 @@
                         <label for="cliente">Cliente</label>
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <input required type="text" class="form-control" id="ubi" name="ubi" placeholder="ubicacion" >
+                        <label for="ubi">Ubicación</label>
+                    </div>
+
                     <div class="form-floating mb-3"> 
                         <input required type="number" class="form-control" id="os" name="os" placeholder="número de orden de servicio" >
                         <label for="os">Número de orden de servicio</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input required type="time" class="form-control" id="hini" name="hini" placeholder="hora inicial" >
-                        <label for="hini">hora Inicial</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input required type="time" class="form-control" id="hfin" name="hfin" placeholder="hora Final" >
-                        <label for="hini">hora Final</label>
                     </div>
 
                         <!-- en este input se carga el value, del id de la fecha conla funcion js: function escribir_fecha_modal(ID) del archivo // semana.js  -->
@@ -300,17 +330,48 @@
 
                     <div class="form-floating mb-3">                                              
                         <input required type="text" class="form-control" id="concepto" name="concepto" placeholder="Concepto" >
-                        <label for="cliente">Concepto</label>
+                        <label for="concepto">Concepto</label>
+                    </div>
+
+                    <div class="form-floating mb-3">                                              
+                        <input required type="text" class="form-control" id="notas" name="notas" placeholder="notas" >
+                        <label for="notas">Notas</label>
                     </div>
 
                     <div class="form-floating mb-3"> 
-                        <input required type="number" class="form-control" id="total" name="total" placeholder="Total" >
-                        <label for="os">Total mxn</label>
+                        <input required type="number" step="0.01" class="form-control" id="total" name="total" placeholder="Total" >
+                        <label for="total">Total mxn</label>
                     </div>
 
-                    <div class="form-floating mb-3">
-                        <input required type="text" class="form-control" id="formapago" name="formapago" placeholder="Forma de Pago" >
-                        <label for="hini">Forma de Pago</label>
+
+                    <div class="form-floating mb-3 border border-secondary rounded p-2">
+
+                        
+
+                        <div class="col ">
+
+                            <div class="">
+                                <span class="">Froma de Pago</span>
+                            </div><br>
+
+                            <div class="form-check form-check-inline ">
+                                
+                                <input type="radio" value="efectivo" class="btn-check" name="from_pago" id="btn-check-outlined" autocomplete="off">
+                                <label class="btn btn-primary" for="btn-check-outlined">Efectivo</label>        
+                            </div>
+
+                            <div class="form-check form-check-inline ">
+                                <input type="radio" value="tdc" class="btn-check" name="from_pago" id="btn-check-outlined1" autocomplete="off">
+                                <label class="btn btn-primary" for="btn-check-outlined1">T Crédito</label>
+
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input type="radio" value="vale" class="btn-check" name="from_pago" id="btn-check-outlined2" autocomplete="off">
+                                <label class="btn btn-primary" for="btn-check-outlined2">Vale Azul</label>
+
+                            </div>
+                        </div>
                     </div>
 
                         <!-- en este input se carga el value, del id de la fecha conla funcion js: function escribir_fecha_modal(ID) del archivo // semana.js  -->
@@ -335,7 +396,58 @@
 
 
 
+            
+<!---------------- Modal Form Horarios de semana.view.php  ------------------------------->
 
+<div class="modal fade" id="modalHorarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!---------header------------------------------->
+        
+                <!-- esta variable viene del archvio reqUnaSemana.php -->
+            <div class="modal-header">
+               
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Horarios <span id="sp_fech_horario"></span></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!---------header------------------------------->
+
+            <!---------body------------------------------->          
+            <div class="modal-body">
+
+                <form action="insertar_horarios.php" method="POST" id="frm_horarios">
+
+                    <div class="form-floating mb-3">
+                        <input required type="time" class="form-control" id="h_entrada" name="h_entrada" placeholder="" >
+                        <label for="h_entrada">Hora de Entrada</label>
+                    </div>   
+                      
+                    <div class="form-floating mb-3">
+                        <input required type="time" class="form-control" id="h_salida" name="h_salida" placeholder="" >
+                        <label for="h_salida">Hora de Salida</label>
+                    </div>
+
+                    <div class="form-floating mb-3">    
+                        <!-- esta variable viene del archvio reqUnaSemana.php -->
+                        <input type="hidden" value="" name="id_fecha_horarios" id="id_fecha_horarios">
+                        <input type="hidden" value="<?php echo($varsesion); ?>" name="usuario">
+
+                    </div> 
+                   <br>
+
+                   <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                   </div>
+                </form>
+            </div>
+            <!---------body------------------------------->
+                
+        </div>
+    </div>
+</div>
+<!---------------- Modal ------------------------------->
 
 
 <script src="semana.js"></script>
