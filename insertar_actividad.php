@@ -11,6 +11,8 @@
 
     $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : "";
 
+    $num_sem = isset($_POST['num_sem']) ? $_POST['num_sem'] : "";
+
 
     
 
@@ -22,8 +24,8 @@
 
         require ("conexion.php");
 
-        $sql = "INSERT INTO actividades (cliente, ubicacion, os, ID_fecha, usuario) 
-        VALUES ('$cliente', '$ubicacion', '$os', '$id_fecha', '$usuario')";
+        $sql = "INSERT INTO actividades (cliente, ubicacion, os, ID_fecha, usuario, num_sem) 
+        VALUES ('$cliente', '$ubicacion', '$os', '$id_fecha', '$usuario', '$num_sem')";
         mysqli_query($conexion, $sql);
         mysqli_close($conexion);
         echo "ok";

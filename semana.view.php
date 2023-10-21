@@ -22,11 +22,6 @@
 <!------- boton Generar PDF y Nuevo dia-------------->
     <div class="container">
         <div class="row m-4 ">
-            <div class="col w-auto">
-                <!-- boton nuevo dia  el target lleva al modal Nuevo Dia -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo Día</button>
-            </div>
-
                 <!-- boton generar PDF -->
                 <!-- esta variable viene del archvio reqUnaSemana.php -->
             <div class="col w-auto">
@@ -35,54 +30,6 @@
         </div>
     </div>
 <!------- ----------------------------------->
-
-
-
-
-<!---------------- Modal Form Nuevo dia ------------------------------->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!---------header------------------------------->
-            <!-- esta variable viene del archvio reqUnaSemana.php -->
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Día Usuario: <?php echo($varsesion); ?></h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!---------header------------------------------->
-
-            <!---------body------------------------------->          
-            <div class="modal-body">
-
-                <form action="" method="POST" id="frm_nuevo_dia">
-
-                    <div class="form-floating mb-3">
-
-                        <input required type="date" class="form-control" id="fecha_dia" name="fecha_dia" placeholder="" >
-                        <label for="fecha_dia">Ingresa una fecha </label>
-
-                        <!-- esta variable viene del archvio reqUnaSemana.php -->
-                        <input type="hidden" value="<?php print_r($id_num_sem); ?>" name="id_num_sem">
-                        <input type="hidden" value="<?php echo($varsesion); ?>" name="usuario">
-                   </div> 
-                   <br>
-
-                   <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button id="btn_frm_nvo_dia"type="button" class="btn btn-primary">Guardar</button>
-                   </div>
-                </form>
-            </div>
-            <!---------body------------------------------->
-                
-        </div>
-    </div>
-</div>
-<!---------------- Modal ------------------------------->
-
-
-
 
 
 
@@ -282,7 +229,8 @@
                         <!-- en este input se carga el value, del id de la fecha conla funcion js: function escribir_fecha_modal(ID) del archivo // semana.js  -->
                         <input type="hidden" value="" id="id_fecha" name="id_fecha">
                         <input type="hidden" value="<?php echo($varsesion); ?>" id="usuario" name="usuario">
-
+                        <input type="hidden" value="<?php echo($id_num_sem); ?>" id="num_sem" name="num_sem">
+                        
                                         
                     <div class="modal-footer">
 
@@ -377,6 +325,8 @@
                         <!-- en este input se carga el value, del id de la fecha conla funcion js: function escribir_fecha_modal(ID) del archivo // semana.js  -->
                         <input type="hidden" value="" id="id_fecha2" name="id_fecha2">
                         <input type="hidden" value="<?php echo($varsesion); ?>" id="usuario" name="usuario">
+                        <input type="hidden" value="<?php echo($id_num_sem); ?>" id="num_sem" name="num_sem">
+
 
                     <div class="modal-footer">
 

@@ -1,18 +1,59 @@
 <?php
-  require ("conexion.php");
+  // require ("conexion.php");
 
 
-function sumaGastos(){
-  require ("conexion.php");
-  $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND fechas.num_sem = '39'";
-  $result = mysqli_query($conexion, $sql);
-  $row = mysqli_fetch_array($result);
-  return $row[0];
+  // // Crea una función que recibe el número de semana y el año
+  // function obtener_dias_semana($semana, $año) {
+  //   // Crea un array vacío para guardar los días
+  //   $dias = array();
+  //   // Usa un bucle for para recorrer los días de la semana
+  //   for ($i = 1; $i <= 7; $i++) {
+  //     // Usa la función date para obtener la fecha correspondiente al día de la semana
+  //     // El primer parámetro es el formato de la fecha, que es "Y-m-d" (año-mes-día)
+  //     // El segundo parámetro es el timestamp, que se obtiene usando la función strtotime
+  //     // La función strtotime convierte una cadena de texto en un timestamp
+  //     // La cadena de texto es "$año-W$semana-$i", que significa el año, la semana y el día dados
+  //     $fecha = date("Y-m-d", strtotime("$año-W$semana-$i"));
+  //     // Añade la fecha al array de días
+  //     $dias[] = $fecha;
+  //   }
+  //   // Devuelve el array de días
+  //   return $dias;
+  // } 
 
-}
+  // $dias = obtener_dias_semana(41, 2023);
 
-$sum = sumaGastos();
-echo $sum;
+  // $lun = $dias[0];
+  // $mar = $dias[1];
+  // $mie = $dias[2];
+  // $jue = $dias[3];
+  // $vie = $dias[4];
+  // $sab = $dias[5];
+  // $dom = $dias[6];
+
+  // // Muestra las variables por pantalla
+  // echo "Lunes: $lun\n";
+  // echo "Martes: $mar\n";
+  // echo "Miércoles: $mie\n";
+  // echo "Jueves: $jue\n";
+  // echo "Viernes: $vie\n";
+  // echo "Sábado: $sab\n";
+  // echo "Domingo: $dom\n";
+
+
+
+
+// function sumaGastos(){
+//   require ("conexion.php");
+//   $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND fechas.num_sem = '39'";
+//   $result = mysqli_query($conexion, $sql);
+//   $row = mysqli_fetch_array($result);
+//   return $row[0];
+
+// }
+
+// $sum = sumaGastos();
+// echo $sum;
 
 // function reqUsuario($varsesion){
 

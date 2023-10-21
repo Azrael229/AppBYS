@@ -112,7 +112,7 @@ function sumSemanalTE($id_num_sem){
 
     require ("conexion.php");
 
-    $sql = "SELECT extras FROM `fechas` WHERE num_sem = $id_num_sem";
+    $sql = "SELECT extras FROM `fechas` WHERE num_sem = '$id_num_sem'";
 
     $res = mysqli_query($conexion, $sql);
     mysqli_close($conexion);

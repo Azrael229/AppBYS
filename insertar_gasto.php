@@ -13,6 +13,7 @@
 
     $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : "";
 
+    $num_sem = isset($_POST['num_sem']) ? $_POST['num_sem'] : "";
 
 
     if ($concepto == "" || $total == "" || $formapago == "" || $id_fecha == "" || $usuario == ""){
@@ -23,8 +24,8 @@
 
         require ("conexion.php");
         
-        $sql ="INSERT INTO gastos (concepto, notas, total, tipo_pago, fecha, usuario) 
-        VALUES ('$concepto', '$notas', '$total', '$formapago', '$id_fecha', '$usuario')";
+        $sql ="INSERT INTO gastos (concepto, notas, total, tipo_pago, fecha, usuario, num_sem) 
+        VALUES ('$concepto', '$notas', '$total', '$formapago', '$id_fecha', '$usuario', '$num_sem')";
         mysqli_query($conexion, $sql);
         mysqli_close($conexion);
 
