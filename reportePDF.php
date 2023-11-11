@@ -56,61 +56,63 @@ $pdf->Ln();
 $pdf->Ln();
 
 //Encabezados
-
-$pdf->Cell(150, 4, "ACTIVIDADES", 1, 0,"C",0);
-$pdf->Cell(100, 4, "GASTOS", 1, 0,"C",0);
+$pdf->SetFillColor(222,222,222);
+$pdf->Cell(150, 4, "ACTIVIDADES", 1, 0,"C",1);
+$pdf->Cell(100, 4, "GASTOS", 1, 0,"C",1);
 $pdf->Ln();
 
-$pdf->Cell(20, 4, "Fecha", 1, 0,"C",0);
-$pdf->Cell(35, 4, "Cliente", 1, 0,"C",0);
-$pdf->Cell(20, 4, "Ubicación", 1, 0,"C",0);
-$pdf->Cell(15, 4, "OS", 1, 0,"C",0);
-$pdf->Cell(20, 4, "Horario 24h", 1, 0,"C",0);
-$pdf->Cell(20, 4, "Tiempo Extra", 1, 0,"C",0);
-$pdf->Cell(20, 4, "Importe T.E.", 1, 0,"C",0);
-$pdf->Cell(30, 4, "Descripción", 1, 0,"C",0);
-$pdf->Cell(30, 4, "Notas", 1, 0,"C",0);
-$pdf->Cell(20, 4, "Forma Pago", 1, 0,"C",0);
-$pdf->Cell(20, 4, "Importe", 1, 0,"C",0);
+$pdf->Cell(20, 4, "Fecha", 1, 0,"C",1);
+$pdf->Cell(35, 4, "Cliente", 1, 0,"C",1);
+$pdf->Cell(20, 4, "Ubicación", 1, 0,"C",1);
+$pdf->Cell(15, 4, "OS", 1, 0,"C",1);
+$pdf->Cell(20, 4, "Horario 24h", 1, 0,"C",1);
+$pdf->Cell(20, 4, "Tiempo Extra", 1, 0,"C",1);
+$pdf->Cell(20, 4, "Importe T.E.", 1, 0,"C",1);
+$pdf->Cell(30, 4, "Descripción", 1, 0,"C",1);
+$pdf->Cell(30, 4, "Notas", 1, 0,"C",1);
+$pdf->Cell(20, 4, "Forma Pago", 1, 0,"C",1);
+$pdf->Cell(20, 4, "Importe", 1, 0,"C",1);
 $pdf->Ln();
 
 
 //  [ID] [fecha] [num_sem] [usuario] [entrada] [salida] [extras] [importeTE]
 
 // columna fecahs
-//lunes
+    $pdf->SetFillColor(222,222,222);
+
     $fechaFMT = colfechas($resultado[0][1]);
-    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",1);
     $pdf->Ln();
     //martes
     $fechaFMT = colfechas($resultado[1][1]);
-    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",1);
     $pdf->Ln();
     //miercoles
     $fechaFMT = colfechas($resultado[2][1]);
-    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",1);
     $pdf->Ln();
     //jueves
     $fechaFMT = colfechas($resultado[3][1]);
-    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",1);
     $pdf->Ln();
     //viernes
     $fechaFMT = colfechas($resultado[4][1]);
-    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",1);
     $pdf->Ln();
     //sabado
     $fechaFMT = colfechas($resultado[5][1]);
-    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",1);
     $pdf->Ln();
     //domingo
     $fechaFMT = colfechas($resultado[6][1]);
-    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",0);
+    $pdf->Cell(20, 16, $fechaFMT, 1, 0,"C",1);
     $pdf->Ln();
 
 
 
 
-    // fila  actividades Lunes
+//lunes
+// fila  actividades Lunes
     $res = reqActividad($resultado[0][0]);
     $pdf->SetXY(30,40);
     foreach($res as $fila):
@@ -491,21 +493,22 @@ $pdf->Ln();
 
 //Tabla de Resultados
 
-$pdf->SetXY(120,156);
+$pdf->SetXY(100,156);
 
-$pdf->Cell(20, 4, "Tiempo Extra", 1, 0,"C",0);
-$pdf->Cell(20, 4, "Importe T.E.", 1, 0,"C",0);
+$pdf->SetFillColor(222,222,222);
+$pdf->Cell(30, 4, "Tiempo Extra", 1, 0,"C",1);
+$pdf->Cell(30, 4, "Importe T.E.", 1, 0,"C",1);
 
-$pdf->SetXY(120,160);
+$pdf->SetXY(100,160);
 $totTE = sumSemanalTE($id_num_sem, $varsesion);
-$pdf->Cell(20, 4, $totTE, 1, 0,"C",0);
+$pdf->Cell(30, 4, $totTE, 1, 0,"C",0);
 
 $res = reqUsuario($varsesion);
 foreach($res as $row):
 
     $importeTE = multiplicar($totTE, $row['valorTE']);
 
-    $pdf->Cell(20, 4,'$ '. $importeTE, 1, 0,"R",0);
+    $pdf->Cell(30, 4,'$ '. $importeTE, 1, 0,"R",0);
 
 endforeach;
 
@@ -514,24 +517,24 @@ endforeach;
 
 
 $pdf->SetXY(235,156);
-$pdf->Cell(25, 4, "Total Gastos", 1, 0,"C",0);
+$pdf->Cell(25, 4, "Total Gastos", 1, 0,"C",1);
 $pdf->SetXY(235,160);
 $sum = sumaGastosTot($id_num_sem, $varsesion);
 $pdf->Cell(25, 4, '$ '. $sum, 1, 0,"R",0);
 
 
 $pdf->SetXY(170,156);
-$pdf->Cell(60, 4, "Reembolso Gastos", 1, 0,"C",0);
+$pdf->Cell(60, 4, "Reembolso Gastos", 1, 0,"C",1);
 
 
 $pdf->SetXY(170,160);
-$pdf->Cell(35, 4, "Facturados en Efectivo", 1, 0,"C",0);
+$pdf->Cell(35, 4, "Facturados en Efectivo", 1, 0,"C",1);
 $pdf->SetXY(205,160);
 $sum = sumaGastosEfec($id_num_sem, $varsesion);
 $pdf->Cell(25, 4, '$ '. $sum, 1, 0,"R",0);
 
 $pdf->SetXY(170,164);
-$pdf->Cell(35, 4, "Vale Azul", 1, 0,"C",0);
+$pdf->Cell(35, 4, "Vale Azul", 1, 0,"C",1);
 $pdf->SetXY(205,164);
 $sum = sumaGastosVale($id_num_sem, $varsesion);
 $pdf->Cell(25, 4, '$ '. $sum, 1, 0,"R",0);
