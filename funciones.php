@@ -108,11 +108,11 @@ function reqHorasfecha($id_fechaPos1){
 }
 
 //Esta funcion devuelve la sumatoria de las horas Extars de la semana X segun le pasemos el parametro a la funcion con la variable $id_num_sem se utiliza en el archivo reporte PDF en la tabla de reslutados 
-function sumSemanalTE($id_num_sem){
+function sumSemanalTE($id_num_sem, $varsesion){
 
     require ("conexion.php");
 
-    $sql = "SELECT extras FROM `fechas` WHERE num_sem = '$id_num_sem'";
+    $sql = "SELECT extras FROM `fechas` WHERE num_sem = '$id_num_sem'  AND fechas.usuario = '$varsesion'";
 
     $res = mysqli_query($conexion, $sql);
     mysqli_close($conexion);
@@ -176,27 +176,27 @@ function reqUsuario($varsesion){
 
 }
 
-function sumaGastosTot($id_num_sem){
+function sumaGastosTot($id_num_sem, $varsesion){
     require ("conexion.php");
-    $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND fechas.num_sem = '$id_num_sem'";
+    $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND fechas.num_sem = '$id_num_sem' AND gastos.usuario = '$varsesion'";
     $result = mysqli_query($conexion, $sql);
     $row = mysqli_fetch_array($result);
     return number_format($row[0],2);
 }
 
-function sumaGastosEfec($id_num_sem){
+function sumaGastosEfec($id_num_sem, $varsesion){
     require ("conexion.php");
 
-    $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND gastos.tipo_pago = 'efectivo' AND fechas.num_sem = '$id_num_sem'";
+    $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND gastos.tipo_pago = 'efectivo' AND fechas.num_sem = '$id_num_sem' AND gastos.usuario = '$varsesion'";
     $result = mysqli_query($conexion, $sql);
     $row = mysqli_fetch_array($result);
     return number_format($row[0],2);
 }
 
-function sumaGastosVale($id_num_sem){
+function sumaGastosVale($id_num_sem, $varsesion){
     require ("conexion.php");
 
-    $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND gastos.tipo_pago = 'vale' AND fechas.num_sem = '$id_num_sem'";
+    $sql = "SELECT SUM(total) FROM gastos, fechas WHERE gastos.fecha = fechas.ID AND gastos.tipo_pago = 'vale' AND fechas.num_sem = '$id_num_sem' AND gastos.usuario = '$varsesion'";
     $result = mysqli_query($conexion, $sql);
     $row = mysqli_fetch_array($result);
     return number_format($row[0],2);
