@@ -381,6 +381,8 @@
 
                     <div class="form-floating mb-3">    
                         <!-- esta variable viene del archvio reqUnaSemana.php -->
+                        <!-- estos dos input pintan su valor desde function idfecha_modahoraios(ID) semana.js -->
+                        <input type="hidden" value="" name="input_fecha"  id="input_fecha" >
                         <input type="hidden" value="" name="id_fecha_horarios" id="id_fecha_horarios">
                         <input type="hidden" value="<?php echo($varsesion); ?>" name="usuario">
 

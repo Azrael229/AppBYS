@@ -53,6 +53,18 @@ function multiplicar($hora, $valor) {
     return number_format($valor1, 2);
 }
 
+
+// funcion que multiplica las horas extras por el valor exclusivo finde semana (insertar_horarios.php)
+function multiplicar_finde($hora, $valor) {
+    $hora_array = explode(':', $hora);
+    $hora_decimal = $hora_array[0] + ($hora_array[1] / 60);
+
+    $valor1 = $hora_decimal * $valor * 2;
+    setlocale(LC_MONETARY, 'es_MX');
+    return number_format($valor1, 2);
+}
+
+
 //funcion que devuelve la diferencia en horas de $timeE (hora de entrada) - 8:00 (horario de entrada normal de lunes a viernes)
 function diff_entrada($timeE) {
     $date1 = new DateTime($timeE);
@@ -68,6 +80,21 @@ function diff_salida($timeS) {
     $interval = $date1->diff($date2);
     return $interval->format('%H:%I');
 }
+
+
+//funcion que devuelve el total de horas trabajadas [de $hora1 (hora de entrada) + $hora2 (hora de salida)]  (horario de fin de semana)
+function finde_sumar_horas($hora1, $hora2) {
+    $horas1 = explode(':', $hora1);
+    $horas2 = explode(':', $hora2);
+    $horas = $horas2[0] - $horas1[0];
+    $minutos = $horas1[1] + $horas2[1];
+    if ($minutos >= 60) {
+        $horas++;
+        $minutos -= 60;
+    }
+    return sprintf('%02d:%02d', $horas, $minutos);
+}
+
 
 function sumar_horas($hora1, $hora2) {
     $horas1 = explode(':', $hora1);

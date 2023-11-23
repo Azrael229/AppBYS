@@ -108,7 +108,8 @@ function idfecha_modahoraios(ID){
 
     let input_idfecha = document.getElementById("id_fecha_horarios");
     let span_fecha_modhoraios =document.getElementById("sp_fech_horario");
-
+    let input_fecha = document.getElementById("input_fecha");
+    
     // el ID del dia, se lo pasa al input id_fecha, para despues enviarlo a la base de datos, con el registro de la nueva actividad
     
     input_idfecha.value = ID;
@@ -123,6 +124,7 @@ function idfecha_modahoraios(ID){
         //console.log(response);
         // span_fecha pinta en el modal la fecha, response.fecha toma la fecha de la respuesta json 
         span_fecha_modhoraios.innerHTML = response.fecha;
+        input_fecha.value = response.fecha;
     });
 
 };
