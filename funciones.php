@@ -53,6 +53,7 @@ function multiplicar($hora, $valor) {
     return number_format($valor1, 2);
 }
 
+//funcion que devuelve la diferencia en horas de $timeE (hora de entrada) - 8:00 (horario de entrada normal de lunes a viernes)
 function diff_entrada($timeE) {
     $date1 = new DateTime($timeE);
     $date2 = new DateTime('08:00');
@@ -60,6 +61,7 @@ function diff_entrada($timeE) {
     return $interval->format('%H:%I');
 }
 
+//funcion que devuelve la diferencia en horas de $timeS (hora de salida) - 18:00 (horario de salida normal de lunes a viernes)
 function diff_salida($timeS) {
     $date1 = new DateTime($timeS);
     $date2 = new DateTime('18:00');

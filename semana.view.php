@@ -58,7 +58,8 @@
 
                             <div class="row">
                                 <div class="col w-auto">
-                                    <!-- boton nuevo dia -->
+                                    <!-- boton Horarios => abre modal para ingresar por input los horarios cada dia  -->
+                                    <!-- => pasa el ID de la fecha a la funcion idfecha_modahorarios a semana.js -->
                                     <button type="button"  class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHorarios" onclick="idfecha_modahoraios(<?php echo $row['ID'];?>)">Horarios</button>
                                 </div>
                             </div>
@@ -348,7 +349,7 @@
 
             
 <!---------------- Modal Form Horarios de semana.view.php  ------------------------------->
-
+<!-- => abre el modal para ingresar en input el horario de entrada y salida del dia  -->
 <div class="modal fade" id="modalHorarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
