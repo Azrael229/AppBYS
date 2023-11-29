@@ -107,7 +107,8 @@
                             <thead class="table-info">
                                 <th scope="col" class="text-center">Cliente</th>
                                 <th scope="col" class="text-center">Ubicación</th>
-                                <th scope="col" class="text-center">Orden de Servicio</th>
+                                <th scope="col" class="text-center">O.S.</th>
+                                <th scope="col" class="text-center">Vehículo</th>
                                 <th scope="col" class="text-center"></th>
                             </thead>
 
@@ -118,6 +119,7 @@
                                 <td class="text-center"><?php echo $fila['cliente'] ?></td>
                                 <td class="text-center"><?php echo $fila['ubicacion'] ?></td>
                                 <td class="text-center"><?php echo $fila['os'] ?></td>
+                                <td class="text-center"><?php echo $fila['vehiculo'] ?></td>
                                 <td class="text-center">
                                     <a href="eliminar_actividad.php?id=<?php echo $fila['ID'] ?>" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -213,18 +215,37 @@
                 <form action="" method="POST" id="frm_nueva_actividad">
 
                     <div class="form-floating mb-3">                                              
-                        <input required type="text" class="form-control" id="cliente" name="cliente" placeholder="Cliente" >
+                        <input required type="text" class="form-control" id="cliente" name="cliente" placeholder="Cliente" maxlength="15">
                         <label for="cliente">Cliente</label>
+                        <small class="form-text text-muted">Máximo 15 caracteres</small>
                     </div>
 
-                    <div class="form-floating mb-3">
-                        <input required type="text" class="form-control" id="ubi" name="ubi" placeholder="ubicacion" >
-                        <label for="ubi">Ubicación</label>
+                    <div class="form-floating mb-4">
+                        <div class="mb-3">
+                            <label for="vehiculo" class="form-label">Vehículo</label>
+                            <select class="form-select form-select" name="vehiculo" id="vehiculo" required>
+                                <option value="HB">Hilux Blanca</option>
+                                <option value="N">Nissan</option>
+                                <option value="B">Camión Azul</option>
+                                <option value="C">Camión Blanco</option>
+                                <option value="P">Camión Palomo</option>
+                                <option value="HG">Hilux Gris</option>
+                                <option value="N/A">No Aplica</option>
+                            </select>
+                            <small class="form-text text-muted">Utlizado durante la actividad</small>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input required type="text" class="form-control" id="ubi" name="ubi" placeholder="ubicacion" maxlength="10">
+                        <label for="ubi">Ciudad</label>
+                        <small class="form-text text-muted">Preferencia Abreviada ej. SLP, Qro, SMA...   Máx 20 caracteres</small>
                     </div>
 
                     <div class="form-floating mb-3"> 
-                        <input required type="number" class="form-control" id="os" name="os" placeholder="número de orden de servicio" >
+                        <input required type="number" class="form-control" id="os" name="os" placeholder="número de orden de servicio" oninput="limitarCaracteres()">
                         <label for="os">Número de orden de servicio</label>
+                        <small class="form-text text-muted">Últimos 3 números / sin O.S. 0000</small>
                     </div>
 
                         <!-- en este input se carga el value, del id de la fecha conla funcion js: function escribir_fecha_modal(ID) del archivo // semana.js  -->
@@ -278,49 +299,54 @@
                 <form action="" method="POST" id="frm_nuevo_gasto">
 
                     <div class="form-floating mb-3">                                              
-                        <input required type="text" class="form-control" id="concepto" name="concepto" placeholder="Concepto" >
+                        <input required type="text" class="form-control" id="concepto" name="concepto" placeholder="Concepto" maxlength="15">
                         <label for="concepto">Concepto</label>
+                        <small class="form-text text-muted">Máximo 15 caracteres</small>
+
                     </div>
 
                     <div class="form-floating mb-3">                                              
-                        <input required type="text" class="form-control" id="notas" name="notas" placeholder="notas" >
+                        <input required type="text" class="form-control" id="notas" name="notas" placeholder="notas" maxlength="25">
                         <label for="notas">Notas</label>
+                        <small class="form-text text-muted">Máximo 25 caracteres</small>
                     </div>
 
                     <div class="form-floating mb-3"> 
                         <input required type="number" step="0.01" class="form-control" id="total" name="total" placeholder="Total" >
                         <label for="total">Total mxn</label>
+                        <small class="form-text text-muted">Ej. 300.68 ingresa solo 2 decimales</small>
                     </div>
 
 
                     <div class="form-floating mb-3 border border-secondary rounded p-2">
 
-                        
+                        <div class="row">
 
-                        <div class="col ">
-
-                            <div class="">
+                            <div class="mb-4">
                                 <span class="">Froma de Pago</span>
                             </div><br>
 
-                            <div class="form-check form-check-inline ">
-                                
-                                <input type="radio" value="efectivo" class="btn-check" name="from_pago" id="btn-check-outlined" autocomplete="off">
-                                <label class="btn btn-primary" for="btn-check-outlined">Efectivo</label>        
-                            </div>
-
-                            <div class="form-check form-check-inline ">
-                                <input type="radio" value="tdc" class="btn-check" name="from_pago" id="btn-check-outlined1" autocomplete="off">
-                                <label class="btn btn-primary" for="btn-check-outlined1">T Crédito</label>
-
-                            </div>
-
-                            <div class="form-check form-check-inline">
-                                <input type="radio" value="vale" class="btn-check" name="from_pago" id="btn-check-outlined2" autocomplete="off">
-                                <label class="btn btn-primary" for="btn-check-outlined2">Vale Azul</label>
-
-                            </div>
                         </div>
+
+                        <div class="row">
+
+                            <div class="col form-switch form-switch-inline ms-3">
+                                <input type="radio" value="tdc" class="form-check-input" role="switch" name="from_pago" id="btn-check-outlined1" autocomplete="off">
+                                <label  for="btn-check-outlined1">T. Crédito</label>
+                            </div>
+
+                            <div class="col form-switch form-switch-inline">                              
+                                <input type="radio" value="efectivo" class="form-check-input" role="switch" name="from_pago" id="btn-check-outlined" autocomplete="off">
+                                <label for="btn-check-outlined">Efectivo</label>        
+                            </div>
+
+                            <div class="col form-switch form-switch-inline">
+                                <input type="radio" value="vale" class="form-check-input" role="switch" name="from_pago" id="btn-check-outlined2" autocomplete="off">
+                                <label  for="btn-check-outlined2">Vale Azul</label>
+                            </div>
+
+                        </div>
+
                     </div>
 
                         <!-- en este input se carga el value, del id de la fecha conla funcion js: function escribir_fecha_modal(ID) del archivo // semana.js  -->

@@ -18,7 +18,7 @@ require('funciones.php');
 
 $pdf = new FPDF('L','mm','letter',true);
 $pdf->AddPage();
-$pdf->SetFont('Arial','',9);
+$pdf->SetFont('Arial','',10);
 
 
 
@@ -56,6 +56,7 @@ $pdf->Ln();
 $pdf->Ln();
 
 //Encabezados
+$pdf->SetFont('Arial','',8);
 $pdf->SetFillColor(222,222,222);
 $pdf->Cell(150, 4, "ACTIVIDADES", 1, 0,"C",1);
 $pdf->Cell(100, 4, "GASTOS", 1, 0,"C",1);
@@ -68,9 +69,9 @@ $pdf->Cell(15, 4, "OS", 1, 0,"C",1);
 $pdf->Cell(20, 4, "Horario 24h", 1, 0,"C",1);
 $pdf->Cell(20, 4, "Tiempo Extra", 1, 0,"C",1);
 $pdf->Cell(20, 4, "Importe T.E.", 1, 0,"C",1);
-$pdf->Cell(30, 4, "Descripción", 1, 0,"C",1);
-$pdf->Cell(30, 4, "Notas", 1, 0,"C",1);
-$pdf->Cell(20, 4, "Forma Pago", 1, 0,"C",1);
+$pdf->Cell(25, 4, "Descripción", 1, 0,"C",1);
+$pdf->Cell(40, 4, "Notas", 1, 0,"C",1);
+$pdf->Cell(15, 4, "F. P.", 1, 0,"C",1);
 $pdf->Cell(20, 4, "Importe", 1, 0,"C",1);
 $pdf->Ln();
 
@@ -118,7 +119,8 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(30);
 
-        $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+        $pdf->Cell(28, 4, $fila['cliente'] , 1, 0,"",0);
+        $pdf->Cell(7, 4, $fila['vehiculo'] , 1, 0,"",0);
         $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
         $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
     
@@ -153,9 +155,9 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(160);
 
-        $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
-        $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+        $pdf->Cell(25, 4, $fila['concepto'] , 1, 0,"C",0);
+        $pdf->Cell(40, 4, $fila['notas'] , 1, 0,"C",0);
+        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
         $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
         $pdf->Ln();
 
@@ -173,7 +175,8 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(30);
 
-        $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+        $pdf->Cell(28, 4, $fila['cliente'] , 1, 0,"",0);
+        $pdf->Cell(7, 4, $fila['vehiculo'] , 1, 0,"",0);
         $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
         $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
     
@@ -207,13 +210,12 @@ $pdf->Ln();
 
     $pdf->SetXY(160,56);
     foreach($res as $fila):
-    $pdf->SetX(160);
-        
-        $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
-        $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+        $pdf->SetX(160);
+            
+        $pdf->Cell(25, 4, $fila['concepto'] , 1, 0,"C",0);
+        $pdf->Cell(40, 4, $fila['notas'] , 1, 0,"C",0);
+        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
         $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
-
         $pdf->Ln();
 
     endforeach;
@@ -229,7 +231,8 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(30);
 
-        $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+        $pdf->Cell(28, 4, $fila['cliente'] , 1, 0,"",0);
+        $pdf->Cell(7, 4, $fila['vehiculo'] , 1, 0,"",0);
         $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
         $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
     
@@ -264,11 +267,10 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(160);
 
-        $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
-        $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+        $pdf->Cell(25, 4, $fila['concepto'] , 1, 0,"C",0);
+        $pdf->Cell(40, 4, $fila['notas'] , 1, 0,"C",0);
+        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
         $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
-
         $pdf->Ln();
 
     endforeach;
@@ -283,7 +285,8 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(30);
 
-        $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+        $pdf->Cell(28, 4, $fila['cliente'] , 1, 0,"",0);
+        $pdf->Cell(7, 4, $fila['vehiculo'] , 1, 0,"",0);
         $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
         $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
     
@@ -318,11 +321,10 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(160);
 
-        $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
-        $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+        $pdf->Cell(25, 4, $fila['concepto'] , 1, 0,"C",0);
+        $pdf->Cell(40, 4, $fila['notas'] , 1, 0,"C",0);
+        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
         $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
-
         $pdf->Ln();
 
     endforeach;
@@ -337,7 +339,8 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(30);
 
-        $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+        $pdf->Cell(28, 4, $fila['cliente'] , 1, 0,"",0);
+        $pdf->Cell(7, 4, $fila['vehiculo'] , 1, 0,"",0);
         $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
         $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
     
@@ -372,11 +375,10 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(160);
 
-        $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
-        $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+        $pdf->Cell(25, 4, $fila['concepto'] , 1, 0,"C",0);
+        $pdf->Cell(40, 4, $fila['notas'] , 1, 0,"C",0);
+        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
         $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
-
         $pdf->Ln();
 
     endforeach;
@@ -391,7 +393,8 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(30);
 
-        $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+        $pdf->Cell(28, 4, $fila['cliente'] , 1, 0,"",0);
+        $pdf->Cell(7, 4, $fila['vehiculo'] , 1, 0,"",0);
         $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
         $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
     
@@ -426,11 +429,10 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(160);
 
-        $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
-        $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+        $pdf->Cell(25, 4, $fila['concepto'] , 1, 0,"C",0);
+        $pdf->Cell(40, 4, $fila['notas'] , 1, 0,"C",0);
+        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
         $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
-
         $pdf->Ln();
 
     endforeach;
@@ -445,7 +447,8 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(30);
 
-        $pdf->Cell(35, 4, $fila['cliente'] , 1, 0,"C",0);
+        $pdf->Cell(28, 4, $fila['cliente'] , 1, 0,"",0);
+        $pdf->Cell(7, 4, $fila['vehiculo'] , 1, 0,"",0);
         $pdf->Cell(20, 4, $fila['ubicacion'], 1, 0,"C",0);
         $pdf->Cell(15, 4, $fila['os'] , 1, 0,"C",0);
     
@@ -480,11 +483,10 @@ $pdf->Ln();
     foreach($res as $fila):
         $pdf->SetX(160);
         
-        $pdf->Cell(30, 4, $fila['concepto'] , 1, 0,"C",0);
-        $pdf->Cell(30, 4, $fila['notas'] , 1, 0,"C",0);
-        $pdf->Cell(20, 4, $fila['tipo_pago'] , 1, 0,"C",0);
+        $pdf->Cell(25, 4, $fila['concepto'] , 1, 0,"C",0);
+        $pdf->Cell(40, 4, $fila['notas'] , 1, 0,"C",0);
+        $pdf->Cell(15, 4, $fila['tipo_pago'] , 1, 0,"C",0);
         $pdf->Cell(20, 4, '$ '. number_format($fila['total'],2), 1, 0,"R",0);
-
         $pdf->Ln();
 
     endforeach;

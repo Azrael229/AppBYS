@@ -13,10 +13,12 @@
 
     $num_sem = isset($_POST['num_sem']) ? $_POST['num_sem'] : "";
 
+    $vehiculo = isset($_POST['vehiculo']) ? $_POST['vehiculo'] : "";
+
 
     
 
-    if ($id_fecha == "" || $cliente == "" || $os == "" || $ubicacion == "" || $usuario == ""){
+    if ($id_fecha == "" || $cliente == "" || $os == "" || $ubicacion == "" || $usuario == "" || $vehiculo == ""){
         echo "false";
     }
     else{ 
@@ -24,8 +26,8 @@
 
         require ("conexion.php");
 
-        $sql = "INSERT INTO actividades (cliente, ubicacion, os, ID_fecha, usuario, num_sem) 
-        VALUES ('$cliente', '$ubicacion', '$os', '$id_fecha', '$usuario', '$num_sem')";
+        $sql = "INSERT INTO actividades (cliente, ubicacion, os, ID_fecha, usuario, num_sem, vehiculo) 
+        VALUES ('$cliente', '$ubicacion', '$os', '$id_fecha', '$usuario', '$num_sem', '$vehiculo')";
         mysqli_query($conexion, $sql);
         mysqli_close($conexion);
         echo "ok";

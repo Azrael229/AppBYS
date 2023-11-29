@@ -25,6 +25,18 @@ function escribir_fecha_modal(ID){
 };
 
 
+// Limita caracteres del modal Nueva Actividad en el formulario input number orden de servicio semana.view.php
+function limitarCaracteres() {
+    const input = document.getElementById('os');
+    const maxLength = 5; // Cambia este valor al máximo de caracteres permitidos
+
+    if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+    }
+}
+
+
+
 
 // evento click del boton del modal formulario Nueva Actividad
     btn_frm_add_actividad.addEventListener("click", ()=>{
