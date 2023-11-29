@@ -332,7 +332,7 @@
 
                             <div class="col form-switch form-switch-inline ms-3">
                                 <input type="radio" value="tdc" class="form-check-input" role="switch" name="from_pago" id="btn-check-outlined1" autocomplete="off">
-                                <label  for="btn-check-outlined1">T. Crédito</label>
+                                <label  for="btn-check-outlined1">TDC</label>
                             </div>
 
                             <div class="col form-switch form-switch-inline">                              
@@ -342,7 +342,7 @@
 
                             <div class="col form-switch form-switch-inline">
                                 <input type="radio" value="vale" class="form-check-input" role="switch" name="from_pago" id="btn-check-outlined2" autocomplete="off">
-                                <label  for="btn-check-outlined2">Vale Azul</label>
+                                <label  for="btn-check-outlined2">Vale</label>
                             </div>
 
                         </div>
