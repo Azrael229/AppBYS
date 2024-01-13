@@ -16,7 +16,7 @@
     //     print_r($fila);
     // }
 
-    $sql = "SELECT numero_semana FROM semana WHERE usuario='$varsesion'";
+    $sql = "SELECT numero_semana FROM semana WHERE usuario='$varsesion' AND year=2024";
 
     $resultado = mysqli_query($conexion,$sql);
     $res = $resultado->fetch_all();

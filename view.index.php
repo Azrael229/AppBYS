@@ -12,7 +12,7 @@
 <!------- titulo gastos 2023 -------------->
     <div class="container text-center" >
         <div class="row">
-            <?php $year = 2023;?>
+            <?php $year = 2024;?>
             <h1>GASTOS <?php echo $year;?></h1>
         </div>
 
